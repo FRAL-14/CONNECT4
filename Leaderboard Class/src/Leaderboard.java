@@ -61,7 +61,7 @@ public class Leaderboard {
 //
 //            }
             int rank=1;
-            while(rs.next()){
+            while(rs.next() && rank <= 5){
 
                 if (rs.isFirst()){
                     System.out.printf("  \t\t%s  \t\t\t%s      %s\n", "Name", "Moves", "Time(seconds)");
