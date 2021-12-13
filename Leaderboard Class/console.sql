@@ -1,4 +1,3 @@
-
 Create Table INT_Leaderboard(
     player_id BIGSERIAL primary key ,
     player_name varchar(20) UNIQUE NOT NULL,
@@ -15,6 +14,9 @@ CREATE TABLE INT_save_game(
     moves INT REFERENCES int_leaderboard(moves),
     game_duration INT REFERENCES int_leaderboard(game_duration),
     coin_owner char(1) CHECK ( coin_owner in ('X','O') )
+
+
+    --THIS IS NO WHERE NEAR FINAL PLEASE DO NOT USE
 
 
 
