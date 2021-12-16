@@ -6,12 +6,12 @@ public class PlayerHuman extends Player {
 	}
 
 	public boolean dropCoin(int col) {
-		col--;
-		Integer lowestFreeSpot = findLowestFreeSpot(col);
-		if (lowestFreeSpot == null) {
-			return false;
-		}
-		getGrid().getSpot(lowestFreeSpot, col).setCoin(new Coin(this));
-		return true;
-	}
+        col--;
+        Integer lowestFreeSpot = findLowestFreeSpot(col);
+        if (lowestFreeSpot == null) {
+            return true;
+        }
+        getGrid().getSpot(lowestFreeSpot, col).setCoin(new Coin(this));
+        return false;
+    }
 }
