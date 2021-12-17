@@ -5,13 +5,15 @@ public class PlayerHuman extends Player {
 		super(name, 'O', grid);
 	}
 
-	public boolean dropCoin(int col) {
-        col--;
-        Integer lowestFreeSpot = findLowestFreeSpot(col);
-        if (lowestFreeSpot == null) {
-            return true;
-        }
-        getGrid().getSpot(lowestFreeSpot, col).setCoin(new Coin(this));
-        return false;
-    }
+	public boolean dropCoin(Integer col) {
+		if (col == null) return true;
+		col--;
+		Integer lowestFreeSpot = findLowestFreeSpot(col);
+		if (lowestFreeSpot == null) {
+			return true;
+		}
+		getGrid().getSpot(lowestFreeSpot, col).setCoin(new Coin(this));
+		getGrid().addCoin();
+		return false;
+	}
 }
