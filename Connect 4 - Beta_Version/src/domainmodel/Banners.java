@@ -70,7 +70,7 @@ public class Banners {
 				Load a saved game.........l
 				View game instruction.....i
 								
-				Input:\040""";
+				""";
 		printNewScreen();
 		Banners.printLogo();
 		System.out.print(s);
