@@ -6,6 +6,7 @@ public class Grid {
 	Spot[][] spots = new Spot[ROWS_AMOUNT][COLUMNS_AMOUNT];
 	private static final char EMPTY_SPOT = '_';
 	private static final char WALL = '|';
+	private static int amountOfCoins = 0;
 	String[] controls = {
 			"\t\t\tControls:",
 			"\t\t\tSave...................s",
@@ -21,6 +22,14 @@ public class Grid {
 				spots[row][col] = new Spot(row, col, null);
 			}
 		}
+	}
+
+	public boolean gridHasSpace() {
+		return amountOfCoins < 42;
+	}
+
+	public void addCoin() {
+		amountOfCoins++;
 	}
 
 	public Spot getSpot(int row, int col) {
