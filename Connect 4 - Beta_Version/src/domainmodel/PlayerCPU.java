@@ -22,5 +22,6 @@ public class PlayerCPU extends Player {
 		} while (lowestFreeSpot == null);
 
 		getGrid().getSpot(lowestFreeSpot, col).setCoin(new Coin(this));
+		getGrid().addCoin();
 	}
 }
