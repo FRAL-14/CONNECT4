@@ -8,6 +8,7 @@ public class GameSession {
 		String input;
 		Scanner scanner = new Scanner(System.in);
 		Integer columnChoice;
+		boolean winner = false;
 
 		Banners.printWelcomeScreen();
 
@@ -37,7 +38,7 @@ public class GameSession {
 
 
 				//				main game loop
-				while (grid.gridHasSpace()) {
+				while (grid.gridHasSpace() && !winner) {
 					printNewScreen();
 					grid.printGrid();
 					System.out.printf("%s's turn\n", playerHuman.getNAME());
@@ -48,7 +49,7 @@ public class GameSession {
 						checkAndDoSideAction(input, scanner, grid);
 
 						columnChoice = getNumber(input);
-						turnComplete = isNotNull(columnChoice);
+						turnComplete = isInBounds(columnChoice);
 						if (turnComplete) {
 							boolean colFull = playerHuman.dropCoin(columnChoice);
 							if (colFull) {
@@ -60,15 +61,40 @@ public class GameSession {
 
 					printNewScreen();
 					grid.printGrid();
+
+					winner = grid.checkWin();
+					if (winner) {
+						System.out.printf("Player %s won!\n", playerHuman.getNAME());
+						Banners.youWin();
+						break;
+					}
+
 					System.out.printf("%s's turn\n", playerCPU.getNAME());
-					System.out.print("Calculating best move...");
-					sleep(2000);
+					System.out.print("Calculating best move");
+					sleep(500);
+					System.out.print(".");
+					sleep(500);
+					System.out.print(".");
+					sleep(500);
+					System.out.print(".");
+					sleep(500);
 					playerCPU.dropCoin();
+
 					printNewScreen();
 					grid.printGrid();
+
+					winner = grid.checkWin();
+					if (winner) {
+						System.out.printf("%s won!\n", playerCPU.getNAME());
+						Banners.printGameOver();
+					}
 				}
-				System.out.println();
-				System.out.println("Game tied. You suck... Get gud...");
+
+				// GRID FULL --> TIE
+				if (!winner) {
+					System.out.println();
+					System.out.println("Game tied. You suck... Get gud...");
+				}
 			}
 			case "e" -> {
 				System.out.println("Closing game...");
@@ -85,7 +111,7 @@ public class GameSession {
 
 	 @return <code>boolean</code>
 	 */
-	public static boolean isNotNull(Integer val) {
+	public static boolean isInBounds(Integer val) {
 		return val != null && val > 0 && val < 8;
 	}
 
@@ -160,7 +186,6 @@ public class GameSession {
 				System.exit(0);
 			}
 		}
-
 	}
 
 	private static void printLoadScreen(Scanner scanner) {
