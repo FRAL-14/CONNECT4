@@ -24,10 +24,66 @@ public class Grid {
 		}
 	}
 
+	public boolean checkWin() {
+		int[][] directions = { { 0, -1 }, { 1, -1 }, { 1, 0 }, { 1, 1 } };      // int[col][row] -> up, up right, right, down right
+
+		for (int row = 0; row < ROWS_AMOUNT; row++) {               // for every row
+			for (int col = 0; col < COLUMNS_AMOUNT; col++) {        // for every column
+				Coin coin = getSpot(row, col).getCoin();            // get Coin of current Spot
+				if (coin == null) continue;                         // if no Coin in Spot, continue to next Spot
+				char sign = coin.getSign();                         // get sign of current Spot
+				for (int[] direction : directions) {
+					boolean winnerFound = true;                     // reset variables for every direction
+					int nextRow = row;
+					int nextCol = col;
+					for (int i = 0; i < 3; i++) {
+						nextRow += direction[1];                    // go to neighboring Spot
+						nextCol += direction[0];
+
+						// out of bounds check
+						if (nextRow < 0 || nextRow >= ROWS_AMOUNT || nextCol < 0 || nextCol >= COLUMNS_AMOUNT) {
+							winnerFound = false;
+							break;
+						}
+
+						// check if Coin in Spot
+						Coin nextCoin = getSpot(nextRow, nextCol).getCoin();
+						if (nextCoin == null) {
+							winnerFound = false;
+							break;
+						}
+
+						// check if nextSign is the same as sign of original Spot
+						char nextSign = nextCoin.getSign();
+						if (sign != nextSign) {
+							winnerFound = false;
+							break;
+						}
+					}
+
+					// after 3 neighbors in the same direction have been checked we found a winner and return true
+					if (winnerFound) {
+						System.out.println("Winner found!");
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 Checks if there is still space in the grid.
+
+	 @return <code>Boolean</code>
+	 */
 	public boolean gridHasSpace() {
 		return amountOfCoins < 42;
 	}
 
+	/**
+	 Adds 1 to the coin counter of grid keeping track of the amount of coins in it.
+	 */
 	public void addCoin() {
 		amountOfCoins++;
 	}
@@ -39,7 +95,8 @@ public class Grid {
 	public void printGrid() {
 		for (int row = 0; row < ROWS_AMOUNT; row++) {
 			for (int col = 0; col < COLUMNS_AMOUNT; col++) {
-				System.out.printf("%c %c ", WALL, getSpot(row, col).getCoin() == null ? EMPTY_SPOT : getSpot(row, col).getCoin().getSign());
+				Coin coin = getSpot(row, col).getCoin();
+				System.out.printf("%c %c ", WALL, coin == null ? EMPTY_SPOT : coin.getSign());
 			}
 			System.out.println(WALL + controls[row]);
 		}
