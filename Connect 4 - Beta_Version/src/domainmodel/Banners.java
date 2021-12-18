@@ -27,7 +27,7 @@ public class Banners {
 		System.out.println(gameOver);
 	}
 
-	private static void printWinnerScreen() {
+	public static void youWin() {
 		String youWin = """
 				  ____    ____  ______    __    __     ____    __    ____  __  .__   __.\s
 				  \\   \\  /   / /  __  \\  |  |  |  |    \\   \\  /  \\  /   / |  | |  \\ |  |\s
