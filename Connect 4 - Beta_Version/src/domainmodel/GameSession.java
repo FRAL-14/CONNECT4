@@ -29,6 +29,8 @@ public class GameSession {
 					System.out.println("Name too long. Please use 20 characters or less.");
 					System.out.print("Type in your name: ");
 					name = scanner.nextLine().trim();
+
+
 				}
 
 				//			Initialization

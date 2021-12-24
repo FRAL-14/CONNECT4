@@ -1,0 +1,122 @@
+/* WEBSITE THEME */
+
+* {
+    font-family: sans-serif;
+    margin: 0;
+}
+
+body {
+    background-color: cornsilk;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------- */
+/* LOGO & NAVIGATION */
+
+.logo {
+    margin: auto;
+    display: block;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 15%;
+}
+
+.link-list {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+    word-spacing: 40px;
+}
+
+a {
+    text-decoration: none;
+    font-size: 100%;
+    font-weight: bold;
+    color: black;
+}
+
+nav a:hover {
+    color: #de4a4d;
+}
+
+.link-list .current {
+    color: blue;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------- */
+/* FOOTER */
+
+.footer {
+    position: relative;
+    background-color: gray;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: white;
+    text-align: center;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------- */
+/* HOME PAGE */
+
+main {
+    text-align: justify;
+    margin: 20px 0;
+}
+
+main img {
+    margin: 20px 0;
+    width: 100%;
+}
+
+main h2, p {
+    margin: 0 40px;
+}
+
+main h2 {
+    margin-bottom: 20px;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------- */
+/* PREVIEW PAGE */
+
+.preview-images {
+    width: 5%;
+    height: auto;
+}
+
+.preview-image-1, .preview-image-2, .preview-image-3, .preview-image-4, .preview-image-5, .preview-image-6 {
+    padding: 20px;
+    width: 500%;
+    height: auto;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------- */
+/* DOWNLOAD PAGE */
+
+.click-download {
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.button {
+    background-color: blue;
+    border: none;
+    color: white;
+    padding: 15px 15px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.button:hover {
+    background-color: red;
+}
+
+
+
+
+/* ----------------------------------------------------------------------------------------------------------------- */
+/* ABOUT PAGE */
+
+
+/* ----------------------------------------------------------------------------------------------------------------- */
