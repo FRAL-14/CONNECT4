@@ -1,6 +1,8 @@
-package domainmodel;
+package game;
 
-import static domainmodel.GameSession.printNewScreen;
+import java.util.Scanner;
+
+import static game.GameSession.printNewScreen;
 
 public class Banners {
 	public static void printLogo() {
@@ -17,13 +19,14 @@ public class Banners {
 
 	public static void printGameOver() {
 		String gameOver = """
-						_______      ___      .___  ___.  _______      ______   ____    ____  _______ .______     \s
-					/  _____|    /   \\     |   \\/   | |   ____|    /  __  \\  \\   \\  /   / |   ____||   _  \\    \s
-					|  |  __     /  ^  \\    |  \\  /  | |  |__      |  |  |  |  \\   \\/   /  |  |__   |  |_)  |   \s
-					|  | |_ |   /  /_\\  \\   |  |\\/|  | |   __|     |  |  |  |   \\      /   |   __|  |      /    \s
-					|  |__| |  /  _____  \\  |  |  |  | |  |____    |  `--'  |    \\    /    |  |____ |  |\\  \\----.\s
-					\\______| /__/     \\__\\ |__|  |__| |_______|    \\______/      \\__/     |_______|| _| `._____|\s
-				""";
+				  _______      ___      .___  ___.  _______      ______   ____    ____  _______ .______     \s
+				 /  _____|    /   \\     |   \\/   | |   ____|    /  __  \\  \\   \\  /   / |   ____||   _  \\    \s
+				|  |  __     /  ^  \\    |  \\  /  | |  |__      |  |  |  |  \\   \\/   /  |  |__   |  |_)  |   \s
+				|  | |_ |   /  /_\\  \\   |  |\\/|  | |   __|     |  |  |  |   \\      /   |   __|  |      /    \s
+				|  |__| |  /  _____  \\  |  |  |  | |  |____    |  `--'  |    \\    /    |  |____ |  |\\  \\----.
+				 \\______| /__/     \\__\\ |__|  |__| |_______|    \\______/      \\__/     |_______|| _| `._____|
+				                                                                                            \s
+				Press Enter to continue\040""";
 		System.out.println(gameOver);
 	}
 
@@ -35,11 +38,11 @@ public class Banners {
 				    \\_    _/  |  |  |  | |  |  |  |      \\            /   |  | |  . `  |\s
 				      |  |    |  `--'  | |  `--'  |       \\    /\\    /    |  | |  |\\   |\s
 				      |__|     \\______/   \\______/         \\__/  \\__/     |__| |__| \\__|\s
-				""";
+				Press Enter to continue\040""";
 		System.out.println(youWin);
 	}
 
-	public static void printInstructions() {
+	public static void printInstructions(Scanner scanner) {
 		String instructions = """
 				Rules and instructions:
 				 - Your objective is to be the first to connect 4
@@ -49,10 +52,10 @@ public class Banners {
 				 - The game ends when a player connects four or all squares are filled (draw)
 				    
 				    
-				Press Enter to continue
-				""";
+				Press Enter to continue""";
 		printNewScreen();
 		System.out.print(instructions);
+		scanner.nextLine();
 	}
 
 
@@ -69,6 +72,7 @@ public class Banners {
 				Start a new game..........n
 				Load a saved game.........l
 				View game instruction.....i
+				Close game................e
 								
 				""";
 		printNewScreen();

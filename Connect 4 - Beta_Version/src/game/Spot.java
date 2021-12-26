@@ -1,8 +1,8 @@
-package domainmodel;
+package game;
 
 public class Spot {
-	private int row;
-	private int col;
+	private final int row;
+	private final int col;
 	private Coin coin;
 
 	public Spot(int row, int col, Coin coin) {

@@ -1,4 +1,4 @@
-package domainmodel;
+package game;
 
 public class Coin {
 	private final Player owner;

@@ -1,16 +1,18 @@
-package domainmodel;
+package game;
 
-import static domainmodel.Grid.ROWS_AMOUNT;
+import static game.Grid.ROWS_AMOUNT;
 
 public abstract class Player {
 	private final char SIGN;
 	private final String NAME;
 	private final Grid grid;
+	private Score score;
 
-	public Player(String NAME, char SIGN, Grid grid) {
+	public Player(String NAME, char SIGN, Grid grid, Score score) {
 		this.NAME = NAME;
 		this.SIGN = SIGN;
 		this.grid = grid;
+		this.score = score;
 	}
 
 	public Grid getGrid() {
