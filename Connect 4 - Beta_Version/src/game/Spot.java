@@ -18,12 +18,4 @@ public class Spot {
 	public Coin getCoin() {
 		return coin;
 	}
-
-	public int getCol() {
-		return col;
-	}
-
-	public int getRow() {
-		return row;
-	}
 }
