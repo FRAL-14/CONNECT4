@@ -40,6 +40,7 @@ fi
 
 
 # shellcheck disable=SC2002
+# $4 just means the 4th column, since the default seperater is ' ' then we dont have to split or change IFS
 totalDownload=$(cat "${htmlLocation}" | grep "<p>" | grep -E "[^0-9][0-9]+" | awk '{ SUM += $4;} END { print SUM;}')
 
 endTime=$(date +%s)
@@ -47,6 +48,9 @@ runTime=$((endTime-startTime))
 
 # shellcheck disable=SC2129
 echo "<p>${dateFunction} - ${amountOfDownloads} downloads</p>" >> "${htmlLocation}"
+# shellcheck disable=SC2002
+#We put it here to add the new elements as well.
+totalDownload=$(cat "${htmlLocation}" | grep "<p>" | grep -E "[^0-9][0-9]+" | awk '{ SUM += $4;} END { print SUM;}')
 echo -e "<p>Total: ${totalDownload} downloads.</p>" >> "${htmlLocation}"
 echo -e "<p>This script took ${runTime} seconds to run</p>" >> "${htmlLocation}"
 echo -e "<p>Last updated on ${lastUpdatedDate}</p></body></html>" >> "${htmlLocation}"
