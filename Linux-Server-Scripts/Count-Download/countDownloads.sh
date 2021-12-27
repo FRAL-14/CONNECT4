@@ -39,11 +39,13 @@ else
 fi
 
 
+# shellcheck disable=SC2002
 totalDownload=$(cat "${htmlLocation}" | grep "<p>" | grep -E "[^0-9][0-9]+" | awk '{ SUM += $1} END { print SUM}')
 
 endTime=$(date +%s)
 runTime=$((endTime-startTime))
 
+# shellcheck disable=SC2129
 echo "<p>${dateFunction} - ${amountOfDownloads} downloads</p>" >> "${htmlLocation}"
 echo -e "<p>Total: ${totalDownload} downloads.</p>" >> "${htmlLocation}"
 echo -e "<p>This script took ${runTime} seconds to run</p>" >> "${htmlLocation}"
