@@ -1,15 +1,15 @@
-package domainmodel;
+package game;
 
 import java.util.Random;
 
-import static domainmodel.Grid.COLUMNS_AMOUNT;
+import static game.Grid.COLUMNS_AMOUNT;
 
 
 public class PlayerCPU extends Player {
 	private Random random = new Random();
 
-	public PlayerCPU(String name, Grid grid) {
-		super(name, 'X', grid);
+	public PlayerCPU(String name, Grid grid, Score score) {
+		super(name, 'X', grid, score);
 	}
 
 	public void dropCoin() {

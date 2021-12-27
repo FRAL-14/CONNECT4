@@ -1,8 +1,8 @@
-package domainmodel;
+package game;
 
 public class PlayerHuman extends Player {
-	public PlayerHuman(String name, Grid grid) {
-		super(name, 'O', grid);
+	public PlayerHuman(String name, Grid grid, Score score) {
+		super(name, 'O', grid, score);
 	}
 
 	public boolean dropCoin(Integer col) {

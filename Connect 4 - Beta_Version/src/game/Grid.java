@@ -1,4 +1,4 @@
-package domainmodel;
+package game;
 
 public class Grid {
 	public static final int ROWS_AMOUNT = 6;
@@ -12,8 +12,8 @@ public class Grid {
 			"\t\t\tSave...................s",
 			"\t\t\tExit...................e",
 			"\t\t\tInstructions...........i",
+			"\t\t\tReturn to main menu....q",
 			"\t\t\tChoose column........1-7",
-			""
 	};
 
 	public Grid() {
@@ -36,7 +36,7 @@ public class Grid {
 					boolean winnerFound = true;                     // reset variables for every direction
 					int nextRow = row;
 					int nextCol = col;
-					for (int i = 0; i < 3; i++) {
+					for (int i = 0; i < 3; i++) {                   // check up to three neighbors in the same direction
 						nextRow += direction[1];                    // go to neighboring Spot
 						nextCol += direction[0];
 
