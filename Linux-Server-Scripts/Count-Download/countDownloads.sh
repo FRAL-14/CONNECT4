@@ -15,7 +15,7 @@ lastUpdatedDate=$(date +%d\ %b\ %H:%M | tr '[:upper:]' '[:lower:]')
 
 
 #Name of zip-file to look for in logs
-zipName=about.html
+zipName=Welcomescreen.png
 
 apacheLog=/var/log/apache2/access.log
 
@@ -33,14 +33,14 @@ then
 
   echo -e "<!DOCTYPE html> <html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<title>Download Statistics</title>\n</head>\n<body>\n" >> "${htmlLocation}"
 else
-  sed -i '/^Total/d' "${htmlLocation}"
-  sed -i '/^This script took/d' "${htmlLocation}"
-  sed -i '/^Last updated on/d' "${htmlLocation}"
+  sed -i '/Total/d' "${htmlLocation}"
+  sed -i '/This script took/d' "${htmlLocation}"
+  sed -i '/Last updated on/d' "${htmlLocation}"
 fi
 
 
 # shellcheck disable=SC2002
-totalDownload=$(cat "${htmlLocation}" | grep "<p>" | grep -E "[^0-9][0-9]+" | awk '{ SUM += $1} END { print SUM}')
+totalDownload=$(cat "${htmlLocation}" | grep "<p>" | grep -E "[^0-9][0-9]+" | awk '{ SUM += $4;} END { print SUM;}')
 
 endTime=$(date +%s)
 runTime=$((endTime-startTime))
