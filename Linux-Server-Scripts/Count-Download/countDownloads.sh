@@ -21,7 +21,7 @@ apacheLog=/var/log/apache2/access.log
 
 
 #grep -c stands for --count: counts lines matching string
-amountOfDownloads=$(grep -Ec "$(date +%d/%b/%Y)(.)+($zipName)" ${apacheLog})
+amountOfDownloads=$(grep -c "$zipName" ${apacheLog})
 
 
 if [ ! -e "${htmlLocation}" ]
@@ -33,25 +33,20 @@ then
 
   echo -e "<!DOCTYPE html> <html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<title>Download Statistics</title>\n</head>\n<body>\n" >> "${htmlLocation}"
 else
-if [[ $(cat "${htmlLocation}" | grep "${dateFunction}") == "${dateFunction}" ]]
-then
-  echo "pattern matches, we should delete that line and make a new one"
-  sed -i "/$(date +%d\ %b  | sed 's%/0%/%g' | tr '[:upper:]' '[:lower:]')/d" "${htmlLocation}"
-fi
   sed -i '/Total/d' "${htmlLocation}"
   sed -i '/This script took/d' "${htmlLocation}"
   sed -i '/Last updated on/d' "${htmlLocation}"
 fi
 
 
-# shellcheck disable=SC2129
-echo "<p>${dateFunction} - ${amountOfDownloads} downloads</p>" >> "${htmlLocation}"
 # shellcheck disable=SC2002
 totalDownload=$(cat "${htmlLocation}" | grep "<p>" | grep -E "[^0-9][0-9]+" | awk '{ SUM += $4;} END { print SUM;}')
-echo -e "<p>Total: ${totalDownload} downloads.</p>" >> "${htmlLocation}"
 
 endTime=$(date +%s)
 runTime=$((endTime-startTime))
 
+# shellcheck disable=SC2129
+echo "<p>${dateFunction} - ${amountOfDownloads} downloads</p>" >> "${htmlLocation}"
+echo -e "<p>Total: ${totalDownload} downloads.</p>" >> "${htmlLocation}"
 echo -e "<p>This script took ${runTime} seconds to run</p>" >> "${htmlLocation}"
 echo -e "<p>Last updated on ${lastUpdatedDate}</p></body></html>" >> "${htmlLocation}"
