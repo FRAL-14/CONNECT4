@@ -5,7 +5,7 @@ date_format=$(date +%Y-%m-%d)
 
 log=/var/opt/backup-log/error.log
 
-file=/opt/backup/filesBackup.txt
+file=/opt/scripts/backup-script/filesBackup.txt
 
 
 #for checking files/folders
