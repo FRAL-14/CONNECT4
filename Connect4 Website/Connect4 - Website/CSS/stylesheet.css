@@ -6,7 +6,14 @@
 }
 
 body {
-    background-color: lightgray;
+    background-color: #e2e2e2;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    margin: 20px;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
@@ -15,14 +22,19 @@ body {
 .logo {
     margin: auto;
     display: block;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    width: 15%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    width: 250px;
+}
+
+.first-hr {
+    width: 35%;
+    margin: 0 auto;
 }
 
 .link-list {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 25px;
+    padding-bottom: 25px;
     text-align: center;
     word-spacing: 40px;
 }
@@ -35,88 +47,198 @@ a {
 }
 
 nav a:hover {
-    color: #de4a4d;
+    color: red;
 }
 
 .link-list .current {
     color: blue;
 }
 
+.second-hr {
+    width: 50%;
+    margin: 0 auto;
+}
+
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* FOOTER */
 
 .footer {
-    position: relative;
-    background-color: gray;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    margin-top: auto;
+    background-color: black;
+}
+
+.footer-container {
     color: white;
     text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* HOME PAGE */
 
-main {
-    text-align: justify;
-    margin: 20px 0;
-}
-
-main img {
-    margin: 20px 0;
+.banner {
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
     width: 100%;
+    height: auto;
 }
 
-main h2, p {
-    margin: 0 40px;
+.home-text {
+    margin: 20px;
+    text-align: center;
 }
 
-main h2 {
-    margin-bottom: 20px;
+.home-text h2 {
+    font-size: 175%;
+    padding-bottom: 10px;
+}
+
+.home-text p {
+    padding: 20px 15% 0 15%;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* PREVIEW PAGE */
 
-.preview-images {
-    width: 5%;
+.img {
+    width: 600px;
     height: auto;
 }
 
-.preview-image-1, .preview-image-2, .preview-image-3, .preview-image-4, .preview-image-5, .preview-image-6 {
-    padding: 20px;
-    width: 500%;
-    height: auto;
+.row {
+    text-align: center;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* DOWNLOAD PAGE */
 
 .click-download {
-    margin: 20px 0;
+    margin-top: 30px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
 }
 
+/*.click-download h2 {
+    padding-right: 50px;
+}*/
+
 .button {
-    background-color: blue;
-    border: none;
+    background-color: green;
+    border: 1px solid;
     color: white;
-    padding: 15px 15px;
+    font-weight: 550;
+    padding: 20px 30px;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 25px;
+    border-radius: 100px;
+    box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.4);
 }
 
 .button:hover {
-    background-color: red;
+    background-color: yellowgreen;
+    color: black;
 }
 
+.install {
+    margin: 10px 15% 50px 15%;
+}
 
+.install h2 {
+    padding-bottom: 25px;
+    text-decoration: underline;
+}
 
+.install h4 {
+    padding-bottom: 20px;
+}
+
+.install a {
+    color: #0645AD;
+    font-weight: normal;
+}
+
+.install a:hover {
+    text-decoration: underline;
+}
+
+.run {
+    margin: 20px 15% 15px;
+}
+
+.run h2 {
+    padding-bottom: 25px;
+    text-decoration: underline;
+}
+
+.run h4 {
+    padding-bottom: 10px;
+}
+
+.run ol {
+    margin-top: 30px;
+}
+
+.run a {
+    color: #0645AD;
+    font-weight: normal;
+}
+
+.run a:hover {
+    text-decoration: underline;
+}
+
+.install span, .run span {
+    font-weight: bold;
+}
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* ABOUT PAGE */
 
+.our-team {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.our-team h2 {
+    padding-bottom: 10px;
+    font-size: 200%;
+}
+
+.block {
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 40px;
+}
+
+.column {
+    width: 25%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border: 1px solid;
+}
+
+.container {
+    padding: 0 16px;
+}
+
+.container h3 {
+    padding: 10px 0;
+}
+
+.title {
+    color: grey;
+    padding-bottom: 15px;
+}
 
 /* ----------------------------------------------------------------------------------------------------------------- */
