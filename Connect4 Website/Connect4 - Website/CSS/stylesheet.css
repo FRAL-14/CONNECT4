@@ -102,13 +102,11 @@ nav a:hover {
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* PREVIEW PAGE */
 
-.img {
-    width: 600px;
-    height: auto;
-}
 
-.row {
-    text-align: center;
+.preview-img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
@@ -120,10 +118,6 @@ nav a:hover {
     justify-content: center;
     align-items: center;
 }
-
-/*.click-download h2 {
-    padding-right: 50px;
-}*/
 
 .button {
     background-color: green;
