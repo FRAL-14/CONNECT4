@@ -23,7 +23,7 @@ fi
 
 done
 
-sed '/^$/d' ${file}
+sed -i '/^$/d' ${file}
 #Deletes additional empty lines
 
 tar -czf /media/backup/backup-"${date_format}".tar.gz -T "$file" 2> ${log}
