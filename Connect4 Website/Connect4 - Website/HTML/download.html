@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Connect4 - Download</title>
+    <title>CONNECT-4 - Download</title>
     <link rel="stylesheet" href="../CSS/stylesheet.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -10,42 +10,62 @@
 <body>
 
 <header>
-    <img class="logo" src="../MEDIA/connect4-logo.png" alt="Connect 4 logo"/>
-    <hr>
+    <img class="logo" src="../MEDIA/layout/logo1.png" alt="Connect 4 logo"/>
+    <hr class="first-hr">
     <nav class="link-list">
         <a href="../index.html">HOME</a>
         <a href="preview.html">PREVIEW</a>
         <a class="current" href="download.html">DOWNLOAD</a>
         <a href="about.html">ABOUT</a>
     </nav>
-    <hr>
+    <hr class="second-hr">
 </header>
 
 <div class="click-download">
-    <h2>Click here to play the game &rightarrow;</h2>
-    <button class="button"><i class="fa fa-download"></i> Download</button>
+    <!--<h2>Click here to play the game &rightarrow;</h2>-->
+    <button class="button"><i class="fa fa-download"></i> DOWNLOAD</button>
 </div>
 
-<hr>
+<main>
+    <div class="install">
+        <h2>How to install the game:</h2>
+        <h4>Follow the instructions below to know how to download our game:</h4>
+        <p>Once you have clicked on the Download button above, you will to see a <span>.zip</span> file in the
+            download bar
+            at
+            the bottom left of your screen.
+            <br><br>
+            Once it finished downloading, you will find it in your file explorer. Now <a
+                    href="https://support.microsoft.com/en-us/windows/zip-and-unzip-files-f6dde0a7-0fec-8294-e1d3-703ed85e7ebc">unzip</a>
+            the file in the same <a
+                    href="https://support.winzip.com/hc/en-us/articles/115011803247-An-explanation-of-directory-and-path-">directory</a>.
+        </p>
+    </div>
 
-<div class="install">
-    <h2>How to install the game:</h2>
-    <p>Follow the instructions below to know how to download our game:</p>
-    <p>Once you have clicked the button "Download" above, you will be able to see a .zip file in the download bar at the
-        bottom left of your screen.
-        <br> Once it finished downloading, find it in your file explorer and open it to make sure everything is inside.
-    </p>
-</div>
+    <section class="run">
+        <h2>How to run:</h2>
+        <h4>Follow the instructions below to know how to lunch and play our game:</h4>
+        <p>The "path" is where your downloaded and extracted folder is. You can locate it and then <a
+                href="https://www.howtogeek.com/670447/how-to-copy-the-full-path-of-a-file-on-windows-10/">copy</a> the
+            path.
+        <ol>
+            <li>Open your terminal (<a
+                    href="https://www.lifewire.com/how-to-open-command-prompt-2618089">Windows</a> & <a
+                    href="https://www.howtogeek.com/682770/how-to-open-the-terminal-on-a-mac/">Mac</a>)
+            </li>
+            <li>cd Downloads</li>
+            <li>javac -d IdkTheNameOfTheZipYet</li>
+            <li>cd SameNameAsAboveWithout.zip</li>
+            <li>java GameSession.java</li>
+        </ol>
+    </section>
+</main>
 
-<div class="execute">
-    <h2>How to execute:</h2>
-    <p>Follow the instructions below to know how to lunch and play our game:
-    <p>
-    <p>To execute the game you must press the windows key and type "cmd", after the window is open, type...</p>
-</div>
 
 <footer class="footer">
-    Copyright &copy; 2021 Night Owls, All rights reserved.
+    <div class="footer-container">
+        Copyright &copy; 2021 Night Owls, All rights reserved.
+    </div>
 </footer>
 
 </body>
