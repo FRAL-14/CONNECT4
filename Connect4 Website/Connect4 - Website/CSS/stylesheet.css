@@ -16,22 +16,38 @@ main {
     margin: 20px;
 }
 
+section {
+    margin: 10px 15%;
+}
+
+h1, h2 {
+    text-decoration: underline;
+    margin: 10px;
+}
+
+h4 {
+    margin: 10px;
+}
+
+p {
+    padding: 10px 15%;
+}
+
+.centered {
+    text-align: center;
+}
+
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* LOGO & NAVIGATION */
 
 .logo {
     margin: auto;
     display: block;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding: 15px 0;
     width: 250px;
 }
 
-.first-hr {
-    width: 35%;
-    margin: 0 auto;
-}
-
+/*TODO: fix the link list (make it an HTML list)*/
 .link-list {
     padding-top: 25px;
     padding-bottom: 25px;
@@ -41,7 +57,6 @@ main {
 
 a {
     text-decoration: none;
-    font-size: 100%;
     font-weight: bold;
     color: black;
 }
@@ -54,6 +69,13 @@ nav a:hover {
     color: blue;
 }
 
+/*FIXME*/
+.first-hr {
+    width: 35%;
+    margin: 0 auto;
+}
+
+/*FIXME*/
 .second-hr {
     width: 50%;
     margin: 0 auto;
@@ -83,20 +105,6 @@ nav a:hover {
     margin-right: auto;
     width: 100%;
     height: auto;
-}
-
-.home-text {
-    margin: 20px;
-    text-align: center;
-}
-
-.home-text h2 {
-    font-size: 175%;
-    padding-bottom: 10px;
-}
-
-.home-text p {
-    padding: 20px 15% 0 15%;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
@@ -136,83 +144,29 @@ nav a:hover {
     color: black;
 }
 
-.install {
-    margin: 10px 15% 50px;
-}
-
-.install h2 {
-    padding-bottom: 25px;
-    text-decoration: underline;
-}
-
-.install h4 {
-    padding-bottom: 20px;
-}
-
-.install a {
+section a {
     color: #0645AD;
     font-weight: normal;
 }
 
-.install a:hover {
+section a:hover {
     text-decoration: underline;
-}
-
-.run {
-    margin: 20px 15% 15px;
-}
-
-.run h2 {
-    padding-bottom: 25px;
-    text-decoration: underline;
-}
-
-.run h4 {
-    padding-bottom: 10px;
-}
-
-.run ol {
-    margin-top: 30px;
-}
-
-.run a {
-    color: #0645AD;
-    font-weight: normal;
-}
-
-.run a:hover {
-    text-decoration: underline;
-}
-
-.install span, .run span {
-    font-weight: bold;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* ABOUT PAGE */
 
-.our-team {
-    text-align: center;
-    padding-top: 10px;
-    padding-bottom: 20px;
-}
-
-.our-team h2 {
-    padding-bottom: 10px;
-    font-size: 200%;
-}
-
 .flex-container {
     justify-content: space-around;
     display: flex;
-    margin: 40px 20px;
+    /*margin: 40px 20px;*/
     flex-wrap: wrap;
 }
 
 figure {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border: 1px solid;
-    margin: 2em;
+    margin: 1em;
 }
 
 figure img {
