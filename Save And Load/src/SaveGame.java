@@ -1,6 +1,6 @@
 import java.sql.*;
 
-@SuppressWarnings("ALL")
+
 public class SaveGame {
     public static void main(String[] args) {
         Leaderboard.createLeaderboardTable();
