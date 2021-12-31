@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/Connect4</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="Connect 4 Database@localhost" uuid="d98f1cfe-c136-47d8-b775-2d4aeef41e68">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/Connect 4 Database</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
