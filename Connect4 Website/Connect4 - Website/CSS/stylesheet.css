@@ -43,42 +43,36 @@ p {
 .logo {
     margin: auto;
     display: block;
-    padding: 15px 0;
+    padding: 15px 25px;
     width: 250px;
+    border-bottom: darkgray solid 1px;
 }
 
-/*TODO: fix the link list (make it an HTML list)*/
-.link-list {
-    padding-top: 25px;
-    padding-bottom: 25px;
-    text-align: center;
-    word-spacing: 40px;
+nav ul {
+    list-style-type: none;
+    display: flex;
+    padding: 25px 0;
+    margin: 0 25px;
+    justify-content: space-around;
+    border-bottom: darkgray solid 1px;
 }
 
 a {
     text-decoration: none;
     font-weight: bold;
     color: black;
+    padding: 15px;
+    border-radius: 50% 10% / 100%;
 }
 
 nav a:hover {
     color: red;
+    /*background: linear-gradient(rgb(219, 166, 166), rgb(0, 0, 172));*/
+/*    TODO: glass morphism hover effect*/
 }
 
-.link-list .current {
+nav .current {
     color: blue;
-}
-
-/*FIXME*/
-.first-hr {
-    width: 35%;
-    margin: 0 auto;
-}
-
-/*FIXME*/
-.second-hr {
-    width: 50%;
-    margin: 0 auto;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
@@ -159,7 +153,6 @@ section a:hover {
 .flex-container {
     justify-content: space-around;
     display: flex;
-    /*margin: 40px 20px;*/
     flex-wrap: wrap;
 }
 
