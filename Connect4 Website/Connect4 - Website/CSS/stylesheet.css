@@ -25,10 +25,6 @@ h1, h2 {
     margin: 10px;
 }
 
-h4 {
-    margin: 10px;
-}
-
 p {
     padding: 10px 15%;
 }
@@ -61,6 +57,9 @@ a {
     text-decoration: none;
     font-weight: bold;
     color: black;
+}
+
+nav a {
     padding: 15px;
     border-radius: 50% 10% / 100%;
 }
@@ -68,7 +67,7 @@ a {
 nav a:hover {
     color: red;
     /*background: linear-gradient(rgb(219, 166, 166), rgb(0, 0, 172));*/
-/*    TODO: glass morphism hover effect*/
+    /*    TODO: glass morphism hover effect*/
 }
 
 nav .current {
@@ -138,6 +137,10 @@ nav .current {
     color: black;
 }
 
+main section p {
+    padding: 10px 5%;
+}
+
 section a {
     color: #0645AD;
     font-weight: normal;
@@ -145,6 +148,10 @@ section a {
 
 section a:hover {
     text-decoration: underline;
+}
+
+ol {
+    padding: 0 5%;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
