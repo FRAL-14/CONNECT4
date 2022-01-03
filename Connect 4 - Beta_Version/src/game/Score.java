@@ -3,9 +3,9 @@ package game;
 import java.util.Date;
 
 public class Score {
-	private String name;
+	private final String name;
 	private int moves = 0;
-	private long duration;
+	private int duration;
 	private final long startTime;
 
 	public Score(String name, long startTime) {
@@ -17,12 +17,16 @@ public class Score {
 		moves++;
 	}
 
-	private void setDuration() {
-		Date end = new Date();
-		duration = end.getTime() - startTime;
+	public int getMoves() {
+		return moves;
 	}
 
-	public long getDuration() {
+	private void setDuration() {
+		Date end = new Date();
+		duration = (int) ((end.getTime() - startTime) / 1000);
+	}
+
+	public int getDuration() {
 		setDuration();
 		return duration;
 	}

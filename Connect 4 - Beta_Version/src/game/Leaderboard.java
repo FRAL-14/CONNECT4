@@ -4,24 +4,31 @@ import java.sql.*;
 
 public class Leaderboard {
 
-	public static void createLeaderboardTable() {
-        /*
-          These are for executing queries through jdbc
-         */
-		Statement stmt = null;
-		String CreateSql = null;
-
-        /*
-          This is the login info for the Database
-         */
-		String jdbc = "jdbc:postgresql://localhost:5432/Connect 4 Database";
+	public static Connection getConnection() {
+//		String jdbc = "jdbc:postgresql://localhost:5432/Connect 4 Database";
+		String jdbc = "jdbc:postgresql://localhost:5432/Connect4";
 		String username = "postgres";
-		String password = "Student_1234";
+//		String password = "Student_1234";
+		String password = "anubis512";
 
 		try {
-			Connection connection = DriverManager.getConnection(jdbc, username, password);
-			stmt = connection.createStatement();
+			return DriverManager.getConnection(jdbc, username, password);
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static void createLeaderboardTable() {
+		Connection connection = getConnection();
+		Statement stmt;
+		String CreateSql;
+
+
+		try {
+			assert connection != null : "Connection is null";
+			stmt = connection.createStatement();
 			CreateSql = """
 					CREATE TABLE IF NOT EXISTS int_leaderboard(
 					name VARCHAR(20) NOT NULL,
@@ -39,14 +46,12 @@ public class Leaderboard {
 	}
 
 	public static void insertToLeaderboard(String playerName, int moves, int gameDuration) {
-		Statement stmt = null;
-		String insertSql = null;
+		Connection connection = getConnection();
+		Statement stmt;
+		String insertSql;
 
-		String jdbc = "jdbc:postgresql://localhost:5432/Connect 4 Database";
-		String username = "postgres";
-		String password = "Student_1234";
 		try {
-			Connection connection = DriverManager.getConnection(jdbc, username, password);
+			assert connection != null : "Connection is null";
 			stmt = connection.createStatement();
 
 			insertSql = "INSERT INTO int_leaderboard as il (name,moves,game_duration) " +
@@ -63,14 +68,12 @@ public class Leaderboard {
 	}
 
 	public static void printTop5Scores() {
-		Statement stmt = null;
+		Connection connection = getConnection();
+		Statement stmt;
 		String query = "SELECT LPAD(name,20,'.'),moves,game_duration FROM int_leaderboard ORDER BY 2,3";
 
-		String jdbc = "jdbc:postgresql://localhost:5432/Connect 4 Database";
-		String username = "postgres";
-		String password = "Student_1234";
 		try {
-			Connection connection = DriverManager.getConnection(jdbc, username, password);
+			assert connection != null : "Connection is null";
 			stmt = connection.createStatement();
 
 			ResultSet rs = stmt.executeQuery(query);
@@ -94,19 +97,15 @@ public class Leaderboard {
 	}
 
 	public static void searchPlayer(String playerName) {
-
-		Statement stmt = null;
+		Connection connection = getConnection();
+		Statement stmt;
 		String query = " SELECT LPAD(name,20,'.'),moves,game_duration " +
 				"FROM int_leaderboard " +
 				"WHERE UPPER(name) = '" + playerName.toUpperCase() + "' " +
 				"ORDER BY 2,3";
 
-		String jdbc = "jdbc:postgresql://localhost:5432/Connect 4 Database";
-		String username = "postgres";
-		String password = "Student_1234";
-
 		try {
-			Connection connection = DriverManager.getConnection(jdbc, username, password);
+			assert connection != null : "Connection is null";
 			stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			int rank = 1;

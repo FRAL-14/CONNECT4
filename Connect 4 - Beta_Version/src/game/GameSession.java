@@ -6,6 +6,9 @@ import java.util.concurrent.TimeUnit;
 
 public class GameSession {
 	public static void main(String[] args) {
+		SaveGame.dropEverything();
+		Leaderboard.createLeaderboardTable();
+		SaveGame.createALLTABLES();
 		String input;
 		Integer columnChoice;
 		Scanner scanner = new Scanner(System.in);
@@ -53,7 +56,7 @@ public class GameSession {
 						boolean turnComplete = false;
 						while (!turnComplete) {
 							input = askAndGetInput(scanner);
-							backToMainMenu = checkAndDoSideAction(input, scanner, grid);
+							backToMainMenu = checkAndDoSideAction(input, scanner, grid, playerHuman);
 							if (backToMainMenu) break gameLoop;
 
 							columnChoice = getNumber(input);
@@ -189,10 +192,10 @@ public class GameSession {
 	 @param scanner <code>Scanner</code>
 	 @param grid    <code>Grid</code>
 	 */
-	public static boolean checkAndDoSideAction(String input, Scanner scanner, Grid grid) {
+	public static boolean checkAndDoSideAction(String input, Scanner scanner, Grid grid, Player player) {
 		switch (input) {
 			case "s" -> {
-				System.out.println("Game saved!");
+				SaveGame.saveGame(player.getNAME(), player.getMoves(), player.getDuration(), grid);
 				return false;
 			}
 			case "i" -> {
