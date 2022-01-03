@@ -12,6 +12,9 @@ public class PlayerCPU extends Player {
 		super(name, 'X', grid, score);
 	}
 
+	public PlayerCPU(Grid grid, Score score) { super("Skynet",'X',grid,score); }
+
+
 	public void dropCoin() {
 		int col;
 		Integer lowestFreeSpot;

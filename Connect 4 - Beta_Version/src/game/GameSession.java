@@ -40,7 +40,7 @@ public class GameSession {
 					//			Initialization
 					Grid grid = new Grid();
 					PlayerHuman playerHuman = new PlayerHuman(name, grid, new Score());
-					PlayerCPU playerCPU = new PlayerCPU("Skynet", grid, new Score());
+					PlayerCPU playerCPU = new PlayerCPU(grid, new Score());
 
 
 					//			main game loop

@@ -184,16 +184,20 @@ public class SaveGame {
 					System.out.println("No saved progress");
 				} else {
 					Grid grid = new Grid();
-					PlayerHuman playerHuman = new PlayerHuman(playerQuery.getString("name"), grid, new Score(playerQuery.getString("moves")));
+					PlayerHuman playerHuman = new PlayerHuman(playerQuery.getString("name"), grid, new Score(playerQuery.getInt("moves"), playerQuery.getInt("game_duration")));
+					PlayerCPU playerCPU = new PlayerCPU(grid,new Score());
 					// instantiate playerCPU
-					for (int row = 0; row < ROWS_AMOUNT; row++) {
-						for (int column = 0; column < COLUMNS_AMOUNT; column++) {
-							// if sign in table == O setCoin with owner playerHuman
-							// if sign in table == X setCoin with owner playerCPU
-							// else setCoin null
-							grid.getSpot(row, column).setSpot(playerQuery.getString("sign"));
-						}
+					// if sign in table == O setCoin with owner playerHuman
+					// if sign in table == X setCoin with owner playerCPU
+					// else setCoin null
+					while (playerQuery.next()){
+						if (playerQuery.getString("sign").equals("O")) grid.getSpot(playerQuery.getInt("y"),playerQuery.getInt("x")).setCoin(new Coin(playerHuman));
+
+						else if (playerQuery.getString("sign").equals("X")) grid.getSpot(playerQuery.getInt("y"),playerQuery.getInt("x")).setCoin(new Coin(playerCPU));
+
+						else  grid.getSpot(playerQuery.getInt("y"),playerQuery.getInt("x")).setCoin(new Coin(null));
 					}
+
 				}
 
 				pstmt.close();
