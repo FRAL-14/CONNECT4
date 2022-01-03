@@ -214,6 +214,15 @@ public class GameSession {
 		return false;
 	}
 
+	private static void prepareLoadGame(Scanner scanner) {
+		String name;
+
+		printNewScreen();
+		System.out.print("Enter your name to look for a saved game: ");
+		name = scanner.nextLine();
+		SaveGame.loadGame(name);
+	}
+
 	private static void printLoadScreen(Scanner scanner) {
 		String s = """
 				Saved games:

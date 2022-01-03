@@ -107,6 +107,7 @@ public class SaveGame {
 					VALUES (?,?,?,CURRVAL('game_id_seq'))
 					""";
 			pstmt2 = connection.prepareStatement(insertSql);
+
 			for (int row = 0; row < ROWS_AMOUNT; row++) {
 				pstmt2.setInt(2, row);
 				for (int col = 0; col < COLUMNS_AMOUNT; col++) {
@@ -161,42 +162,46 @@ public class SaveGame {
 		}
 	}
 
-	//	public static void loadGame(String name) {
-	//		Connection connection = getConnection();
-	//		ResultSet playerQuery;
-	//		PreparedStatement pstmt;
-	//		String query = """
-	//				SELECT name,duration,x,y,sign
-	//				FROM int_player
-	//				JOIN int_spot USING (game_id)
-	//				JOIN int_score USING (score_id)
-	//				WHERE name=?
-	//				""";
-	//
-	//		try {
-	//			assert connection != null;
-	//			pstmt = connection.prepareStatement(query);
-	//			pstmt.setString(1, name);
-	//			playerQuery = pstmt.executeQuery(query);
-	//
-	//			if (!playerQuery.next()) {
-	//				System.out.println("No saved progress");
-	//			} else {
-	//				Grid grid = new Grid();
-	//				PlayerHuman playerHuman = new PlayerHuman(rs.getString("name"), grid, new Score(rs.getString("moves")));
-	//				for (int row = 0; row < ROWS_AMOUNT; row++) {
-	//					for (int column = 0; column < COLUMNS_AMOUNT; column++) {
-	//						grid.getSpot(row, column).setSpot(rs.getString("spot"));
-	//					}
-	//				}
-	//			}
-	//
-	//			pstmt.close();
-	//			connection.close();
-	//		} catch (SQLException e) {
-	//			e.printStackTrace();
-	//		}
-	//	}
+		public static void loadGame(String name) {
+			Connection connection = getConnection();
+			ResultSet playerQuery;
+			PreparedStatement pstmt;
+			String query = """
+					SELECT name,duration,x,y,sign
+					FROM int_player
+					JOIN int_spot USING (game_id)
+					JOIN int_score USING (score_id)
+					WHERE name=?
+					""";
+
+			try {
+				assert connection != null;
+				pstmt = connection.prepareStatement(query);
+				pstmt.setString(1, name);
+				playerQuery = pstmt.executeQuery(query);
+
+				if (!playerQuery.next()) {
+					System.out.println("No saved progress");
+				} else {
+					Grid grid = new Grid();
+					PlayerHuman playerHuman = new PlayerHuman(playerQuery.getString("name"), grid, new Score(playerQuery.getString("moves")));
+					// instantiate playerCPU
+					for (int row = 0; row < ROWS_AMOUNT; row++) {
+						for (int column = 0; column < COLUMNS_AMOUNT; column++) {
+							// if sign in table == O setCoin with owner playerHuman
+							// if sign in table == X setCoin with owner playerCPU
+							// else setCoin null
+							grid.getSpot(row, column).setSpot(playerQuery.getString("sign"));
+						}
+					}
+				}
+
+				pstmt.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 
 	public static void dropEverything() {
 		Connection connection = getConnection();
