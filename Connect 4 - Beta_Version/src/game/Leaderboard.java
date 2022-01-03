@@ -20,11 +20,13 @@ public class Leaderboard {
 		return null;
 	}
 
+	/**
+	 Creates the leaderboard table
+	 */
 	public static void createLeaderboardTable() {
 		Connection connection = getConnection();
 		Statement stmt;
 		String CreateSql;
-
 
 		try {
 			assert connection != null : "Connection is null";
@@ -45,6 +47,12 @@ public class Leaderboard {
 		}
 	}
 
+	/**
+	 Inserts into the Leaderboard table
+	 @param playerName <code>String</code>
+	 @param moves <code>int</code>
+	 @param gameDuration <code>int</code>
+	 */
 	public static void insertToLeaderboard(String playerName, int moves, int gameDuration) {
 		Connection connection = getConnection();
 		Statement stmt;
@@ -67,6 +75,9 @@ public class Leaderboard {
 		}
 	}
 
+	/**
+	 Prints top 5 Leaderboard scores
+	 */
 	public static void printTop5Scores() {
 		Connection connection = getConnection();
 		Statement stmt;
@@ -96,6 +107,10 @@ public class Leaderboard {
 		}
 	}
 
+	/**
+	 Search for a player with a name in the Leaderboard table
+	 @param playerName <code>String</code>
+	 */
 	public static void searchPlayer(String playerName) {
 		Connection connection = getConnection();
 		Statement stmt;

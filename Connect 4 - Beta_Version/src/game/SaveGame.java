@@ -131,6 +131,10 @@ public class SaveGame {
 		}
 	}
 
+	/**
+	 Checks if a player exists in the save&load db and deletes that player
+	 @param playerName <code>String</code>
+	 */
 	public static void checkAndDeletePlayerIfExist(String playerName) {
 		Connection connection = getConnection();
 		PreparedStatement pstmt1;
