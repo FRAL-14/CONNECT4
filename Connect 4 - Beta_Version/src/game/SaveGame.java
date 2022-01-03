@@ -7,10 +7,11 @@ import static game.Grid.ROWS_AMOUNT;
 import static game.Leaderboard.getConnection;
 
 public class SaveGame {
+
 	/**
 	 Creating all tables
 	 */
-	public static void createALLTABLES() {
+	public static void createAllTables() {
 		//          These are for executing queries through jdbc
 		Connection connection = getConnection();
 		Statement stmt;
@@ -178,7 +179,7 @@ public class SaveGame {
 				assert connection != null;
 				pstmt = connection.prepareStatement(query);
 				pstmt.setString(1, name);
-				playerQuery = pstmt.executeQuery(query);
+				playerQuery = pstmt.executeQuery();
 
 				if (!playerQuery.next()) {
 					System.out.println("No saved progress");
@@ -216,17 +217,17 @@ public class SaveGame {
 			stmt = connection.createStatement();
 
 			insertSql = """
-					DROP TABLE IF EXISTS int_spot;
+					DROP TABLE IF EXISTS int_spot CASCADE;
 										
-					DROP TABLE IF EXISTS int_score;
+					DROP TABLE IF EXISTS int_score CASCADE;
 										
-					DROP TABLE IF EXISTS int_player;
+					DROP TABLE IF EXISTS int_player CASCADE;
 					                
-					DROP TABLE IF EXISTS int_gamesession;
+					DROP TABLE IF EXISTS int_gamesession CASCADE;
 					                
-					DROP SEQUENCE IF EXISTS player_id_seq;
+					DROP SEQUENCE IF EXISTS player_id_seq CASCADE ;
 					                
-					DROP SEQUENCE IF EXISTS game_id_seq;
+					DROP SEQUENCE IF EXISTS game_id_seq CASCADE ;
 										
 					""";
 			stmt.executeUpdate(insertSql);

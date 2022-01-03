@@ -7,7 +7,7 @@ public class GameSession {
 	public static void main(String[] args) {
 //		SaveGame.dropEverything();              // empty the database
 		Leaderboard.createLeaderboardTable();
-		SaveGame.createALLTABLES();
+		SaveGame.createAllTables();
 		String input;
 		Integer columnChoice;
 		Scanner scanner = new Scanner(System.in);
@@ -194,7 +194,14 @@ public class GameSession {
 		switch (input) {
 			case "s" -> {
 				SaveGame.saveGame(player.getNAME(), player.getMoves(), player.getDuration(), grid);
-				return false;
+				sleep(500);
+				System.out.print(".");
+				sleep(500);
+				System.out.print(".");
+				sleep(500);
+				System.out.print(".");
+				sleep(500);
+				return true;
 			}
 			case "i" -> {
 				Banners.printInstructions(scanner);
