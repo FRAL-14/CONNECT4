@@ -29,4 +29,4 @@ sed -i '/^$/d' ${file}
 tar -czf /media/backup/backup-"${date_format}".tar.gz -T "$file" 2> ${log}
 #-T is for taking input from
 
-find /media/backup -mtime +7 -exec rm{} \; 2>/dev/null
+find /media/backup -mtime +7 -exec rm {} \; 2>/dev/null
