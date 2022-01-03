@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GameSession {
 	public static void main(String[] args) {
-//		SaveGame.dropEverything();
+		SaveGame.dropEverything();              // empty the database
 		Leaderboard.createLeaderboardTable();
 		SaveGame.createALLTABLES();
 		String input;

@@ -31,32 +31,25 @@ public class SaveGame {
 					START WITH 1
 					INCREMENT BY 1
 					NO MAXVALUE;
-					                        
-					CREATE SEQUENCE IF NOT EXISTS score_id_seq AS INT
-					INCREMENT BY 1
-					START WITH 1
-					NO MAXVALUE;
-					                
+
 					                        
 					CREATE TABLE IF NOT EXISTS int_gamesession(
 					    game_id INT PRIMARY KEY,
 					    last_played_at TIMESTAMP DEFAULT NOW()
 					);
-					CREATE TABLE IF NOT EXISTS int_score(
-					    score_id INT PRIMARY KEY,
-					    moves INT,
-					    game_duration INT
-					);
 					CREATE TABLE IF NOT EXISTS int_player(
 					    game_id INT REFERENCES int_gamesession(game_id) ON DELETE CASCADE,
 					    player_id INT PRIMARY KEY,
-					    name VARCHAR(20),
-					    score_id INT REFERENCES int_score(score_id) ON DELETE CASCADE
+					    name VARCHAR(20) NOT NULL
 					);
-					                        
+					CREATE TABLE IF NOT EXISTS int_score(
+					    player_id INT PRIMARY KEY REFERENCES int_player(player_id) ON DELETE CASCADE ,
+					    moves INT NOT NULL,
+					    game_duration INT NOT NULL
+					);
 					CREATE TABLE IF NOT EXISTS int_spot(
-					    x INT,
-					    y INT,
+					    x INT NOT NULL,
+					    y INT NOT NULL,
 					    sign CHAR(1) DEFAULT NULL,
 					    game_id INT REFERENCES int_gamesession(game_id) ON DELETE CASCADE,
 					    CONSTRAINT spot_pk PRIMARY KEY (x,y,game_id)
@@ -95,18 +88,17 @@ public class SaveGame {
 			pstmt = connection.prepareStatement("""
 					INSERT INTO int_gamesession (game_id)
 					VALUES (NEXTVAL('game_id_seq'));
-					                        
-					INSERT INTO int_score (score_id, moves, game_duration)
-					VALUES (NEXTVAL('score_id_seq'),?,?);
-					                        
-					INSERT INTO int_player (player_id,name,game_id,score_id)
-					VALUES (NEXTVAL('player_id_seq'),?,CURRVAL('game_id_seq'),CURRVAL('score_id_seq'));
-					                        
-					                        
+
+					INSERT INTO int_player (player_id,name,game_id)
+					VALUES (NEXTVAL('player_id_seq'),?,CURRVAL('game_id_seq'));
+
+					INSERT INTO int_score (player_id, moves, game_duration)
+					VALUES (CURRVAL('player_id_seq'),?,?);
+
 					""");
-			pstmt.setInt(1, moves);
-			pstmt.setInt(2, duration);
-			pstmt.setString(3, playerName);
+			pstmt.setString(1, playerName);
+			pstmt.setInt(2, moves);
+			pstmt.setInt(3, duration);
 			pstmt.executeUpdate();
 
 
@@ -128,7 +120,6 @@ public class SaveGame {
 				}
 			}
 
-
 			connection.close();
 			pstmt.close();
 			pstmt2.close();
@@ -146,29 +137,19 @@ public class SaveGame {
 		PreparedStatement pstmt2;
 		try {
 			assert connection != null;
-			pstmt2 = connection.prepareStatement("SELECT * FROM int_player WHERE name = ?");
-			pstmt2.setString(1, playerName);
+			pstmt1 = connection.prepareStatement("SELECT * FROM int_player WHERE name = ?");
+			pstmt1.setString(1, playerName);
 
-			ResultSet rs = pstmt2.executeQuery();
+			ResultSet rs = pstmt1.executeQuery();
 			if (rs.next()) {
 
-				pstmt1 = connection.prepareStatement(""" 
+				pstmt2 = connection.prepareStatement("""
 						DELETE FROM int_gamesession
-						WHERE game_id IN (SELECT game_id
-						FROM int_player
-						WHERE name = ? );
-						DELETE FROM int_spot
-						WHERE game_id IN (SELECT game_id
-						                  FROM int_player
-						                  WHERE name = ? );
-						DELETE FROM int_score
-						WHERE score_id IN (SELECT score_id
-						FROM int_player WHERE name = ? );
+						USING int_player
+						WHERE int_player.name = ?
 						""");
-				pstmt1.setString(1, playerName);
-				pstmt1.setString(2, playerName);
-				pstmt1.setString(3, playerName);
-				pstmt1.executeUpdate();
+				pstmt2.setString(1, playerName);
+				pstmt2.executeUpdate();
 			}
 		} catch (SQLException e) {
 			System.out.println("Error in connection to PostgreSQL server");
@@ -176,40 +157,42 @@ public class SaveGame {
 		}
 	}
 
-//	public static void loadGame() {
-//		Connection connection = getConnection();
-//		ResultSet playerQuery;
-//		PreparedStatement pstmt;
-//
-//		try {
-//			assert connection != null;
-//			String query = """
-//					SELECT * FROM int_gamesession JOIN int_player USING (game_id) JOIN int_score USING (score_id)
-//					WHERE name=?
-//					""";
-//
-//			pstmt = connection.prepareStatement(query);
-//
-//			playerQuery = pstmt.executeQuery(query);
-//
-//			if (!playerQuery.next()) {
-//				System.out.println("No saved progress");
-//			} else {
-//				Grid grid = new Grid();
-//				PlayerHuman playerHuman = new PlayerHuman(rs.getString("name"), grid, new Score(rs.getTimestamp()));
-//				for (int row = 0; row < ROWS_AMOUNT; row++) {
-//					for (int column = 0; column < COLUMNS_AMOUNT; column++) {
-//						grid.getSpot(row, column).setSpot(rs.getString("spot"));
-//					}
-//				}
-//			}
-//
-//			pstmt.close();
-//			connection.close();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
+	//	public static void loadGame(String name) {
+	//		Connection connection = getConnection();
+	//		ResultSet playerQuery;
+	//		PreparedStatement pstmt;
+	//		String query = """
+	//				SELECT name,duration,x,y,sign
+	//				FROM int_player
+	//				JOIN int_spot USING (game_id)
+	//				JOIN int_score USING (score_id)
+	//				WHERE name=?
+	//				""";
+	//
+	//		try {
+	//			assert connection != null;
+	//			pstmt = connection.prepareStatement(query);
+	//			pstmt.setString(1, name);
+	//			playerQuery = pstmt.executeQuery(query);
+	//
+	//			if (!playerQuery.next()) {
+	//				System.out.println("No saved progress");
+	//			} else {
+	//				Grid grid = new Grid();
+	//				PlayerHuman playerHuman = new PlayerHuman(rs.getString("name"), grid, new Score(rs.getString("moves")));
+	//				for (int row = 0; row < ROWS_AMOUNT; row++) {
+	//					for (int column = 0; column < COLUMNS_AMOUNT; column++) {
+	//						grid.getSpot(row, column).setSpot(rs.getString("spot"));
+	//					}
+	//				}
+	//			}
+	//
+	//			pstmt.close();
+	//			connection.close();
+	//		} catch (SQLException e) {
+	//			e.printStackTrace();
+	//		}
+	//	}
 
 	public static void dropEverything() {
 		Connection connection = getConnection();
@@ -220,20 +203,18 @@ public class SaveGame {
 			stmt = connection.createStatement();
 
 			insertSql = """
-					DROP TABLE IF EXISTS int_player;
-					                
-					DROP TABLE IF EXISTS int_score;
-					                
 					DROP TABLE IF EXISTS int_spot;
+										
+					DROP TABLE IF EXISTS int_score;
+										
+					DROP TABLE IF EXISTS int_player;
 					                
 					DROP TABLE IF EXISTS int_gamesession;
 					                
 					DROP SEQUENCE IF EXISTS player_id_seq;
 					                
 					DROP SEQUENCE IF EXISTS game_id_seq;
-					                
-					DROP SEQUENCE IF EXISTS score_id_seq;
-					                
+										
 					""";
 			stmt.executeUpdate(insertSql);
 			stmt.close();
