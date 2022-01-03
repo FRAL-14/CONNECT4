@@ -176,6 +176,41 @@ public class SaveGame {
 		}
 	}
 
+//	public static void loadGame() {
+//		Connection connection = getConnection();
+//		ResultSet playerQuery;
+//		PreparedStatement pstmt;
+//
+//		try {
+//			assert connection != null;
+//			String query = """
+//					SELECT * FROM int_gamesession JOIN int_player USING (game_id) JOIN int_score USING (score_id)
+//					WHERE name=?
+//					""";
+//
+//			pstmt = connection.prepareStatement(query);
+//
+//			playerQuery = pstmt.executeQuery(query);
+//
+//			if (!playerQuery.next()) {
+//				System.out.println("No saved progress");
+//			} else {
+//				Grid grid = new Grid();
+//				PlayerHuman playerHuman = new PlayerHuman(rs.getString("name"), grid, new Score(rs.getTimestamp()));
+//				for (int row = 0; row < ROWS_AMOUNT; row++) {
+//					for (int column = 0; column < COLUMNS_AMOUNT; column++) {
+//						grid.getSpot(row, column).setSpot(rs.getString("spot"));
+//					}
+//				}
+//			}
+//
+//			pstmt.close();
+//			connection.close();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
+
 	public static void dropEverything() {
 		Connection connection = getConnection();
 		Statement stmt;
@@ -207,39 +242,4 @@ public class SaveGame {
 			e.printStackTrace();
 		}
 	}
-
-	//	public static void loadGame() {
-	//		Connection connection = getConnection();
-	//		ResultSet playerQuery;
-	//		PreparedStatement pstmt;
-	//		String query = """
-	//				SELECT * FROM int_gamesession,int_player,int_score
-	//				WHERE name=?
-	//				""";
-	//
-	//		try {
-	//			assert connection != null;
-	//			pstmt = connection.prepareStatement(query);
-	//
-	//			playerQuery = pstmt.executeQuery(query);
-	//
-	//			if (!playerQuery.next()) {
-	//				System.out.println("No saved progress");
-	//			} else {
-	//				Grid grid = new Grid();
-	//				PlayerHuman playerHuman = new PlayerHuman(rs.getString("name"), grid, new Score(rs.getString("name"), rs.getTimestamp()));
-	//				for (int row = 0; row < ROWS_AMOUNT; row++) {
-	//					for (int column = 0; column < COLUMNS_AMOUNT; column++) {
-	//						grid.getSpot(row, column).setSpot(rs.getString("spot"));
-	//					}
-	//				}
-	//			}
-	//
-	//			pstmt.close();
-	//			connection.close();
-	//		} catch (SQLException e) {
-	//			e.printStackTrace();
-	//		}
-	//	}
-
 }

@@ -3,14 +3,17 @@ package game;
 import java.util.Date;
 
 public class Score {
-	private final String name;
-	private int moves = 0;
+	private int moves;
 	private int duration;
-	private final long startTime;
+	Date beginning = new Date();
+	private final long startTime = beginning.getTime();
 
-	public Score(String name, long startTime) {
-		this.name = name;
-		this.startTime = startTime;
+	public Score() {
+		moves = 0;
+	}
+
+	public Score(int moves) {
+		this.moves = moves;
 	}
 
 	public void addMove() {

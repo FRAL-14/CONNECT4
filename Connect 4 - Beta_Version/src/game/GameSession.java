@@ -1,12 +1,11 @@
 package game;
 
-import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class GameSession {
 	public static void main(String[] args) {
-		SaveGame.dropEverything();
+//		SaveGame.dropEverything();
 		Leaderboard.createLeaderboardTable();
 		SaveGame.createALLTABLES();
 		String input;
@@ -26,7 +25,6 @@ public class GameSession {
 				case "n" -> {
 					boolean winner = false;
 					boolean backToMainMenu = false;
-					Date beginning = new Date();
 
 					printNewScreen();
 					Banners.printLogo();
@@ -41,8 +39,8 @@ public class GameSession {
 
 					//			Initialization
 					Grid grid = new Grid();
-					PlayerHuman playerHuman = new PlayerHuman(name, grid, new Score(name, beginning.getTime()));
-					PlayerCPU playerCPU = new PlayerCPU("Skynet", grid, new Score("Skynet", beginning.getTime()));
+					PlayerHuman playerHuman = new PlayerHuman(name, grid, new Score());
+					PlayerCPU playerCPU = new PlayerCPU("Skynet", grid, new Score());
 
 
 					//			main game loop
