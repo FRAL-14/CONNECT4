@@ -79,14 +79,12 @@ public class SaveGame {
 	 */
 	public static void saveGame(String playerName, int moves, int duration, Grid grid) {
 		Connection connection = getConnection();
-		Statement stmt;
 		String insertSql;
 		PreparedStatement pstmt;
 		PreparedStatement pstmt2;
 
 		try {
 			assert connection != null : "Connection is null";
-			stmt = connection.createStatement();
 
 			//			Method checks for previous record of same player name and deletes it if so.
 			checkAndDeletePlayerIfExist(playerName);
@@ -130,8 +128,6 @@ public class SaveGame {
 			connection.close();
 			pstmt.close();
 			pstmt2.close();
-			System.out.println("Game Saved!");
-
 		} catch (SQLException e) {
 			System.out.println("Error in connection to PostgreSQL server");
 			e.printStackTrace();
@@ -168,7 +164,11 @@ public class SaveGame {
 		}
 	}
 
-	public static void loadGame(String name) {
+	public static GameSession loadGame(String name) {
+		PlayerCPU playerCPU = null;
+		PlayerHuman playerHuman = null;
+		Grid grid = null;
+
 		Connection connection = getConnection();
 		ResultSet playerQuery;
 		PreparedStatement pstmt;
@@ -188,14 +188,12 @@ public class SaveGame {
 
 			if (!playerQuery.next()) {
 				System.out.println("No saved progress");
+
 			} else {
-				Grid grid = new Grid();
-				PlayerHuman playerHuman = new PlayerHuman(playerQuery.getString("name"), grid, new Score(playerQuery.getInt("moves"), playerQuery.getInt("game_duration")));
-				PlayerCPU playerCPU = new PlayerCPU(grid, new Score());
-				// instantiate playerCPU
-				// if sign in table == O setCoin with owner playerHuman
-				// if sign in table == X setCoin with owner playerCPU
-				// else setCoin null
+				grid = new Grid();
+				playerHuman = new PlayerHuman(playerQuery.getString("name"), grid, new Score(playerQuery.getInt("moves"), playerQuery.getInt("game_duration")));
+				playerCPU = new PlayerCPU(grid, new Score());
+
 				while (playerQuery.next()) {
 					if (playerQuery.getString("sign") == null)              // empty spot
 						grid.getSpot(playerQuery.getInt("y"), playerQuery.getInt("x")).setCoin(new Coin(null));
@@ -207,16 +205,18 @@ public class SaveGame {
 						grid.getSpot(playerQuery.getInt("y"), playerQuery.getInt("x")).setCoin(new Coin(playerCPU));
 
 				}
-
 			}
-
 			pstmt.close();
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return new GameSession(grid, playerHuman, playerCPU);
 	}
 
+	/**
+	 Drops all sequences and tables to reset the entire database and start from scratch
+	 */
 	public static void dropEverything() {
 		Connection connection = getConnection();
 		Statement stmt;

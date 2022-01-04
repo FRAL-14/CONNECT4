@@ -1,10 +1,55 @@
 package game;
 
 import java.util.Scanner;
-
-import static game.GameSession.printNewScreen;
+import java.util.concurrent.TimeUnit;
 
 public class Banners {
+
+	/**
+	 program waits for specified time
+
+	 @param milliseconds 1000 == 1 second
+	 */
+	public static void sleep(int milliseconds) {
+		try {
+			TimeUnit.MILLISECONDS.sleep(milliseconds);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 Moves the screen up by 25 rows to clear the screen
+	 */
+	public static void printNewScreen() {
+		final int MAX_LINES = 30;
+		for (int i = 0; i < MAX_LINES; i++) {
+			System.out.println();
+		}
+	}
+
+	/**
+	 Prints "Press Enter to continue" and waits for a new line input
+	 */
+	public static void pressEnterToContinue(Scanner scanner) {
+		System.out.print("Press Enter to continue. ");
+		scanner.nextLine();
+	}
+
+	/**
+	 Prints three dots with half a second in between each dot
+	 */
+	public static void dotDotDot() {
+		sleep(500);
+		System.out.print(".");
+		sleep(500);
+		System.out.print(".");
+		sleep(500);
+		System.out.print(".");
+		sleep(500);
+		System.out.println();
+	}
+
 	public static void printLogo() {
 		String logo = """
 				  ______   ______   .__   __. .__   __.  _______   ______ .___________.    _  _

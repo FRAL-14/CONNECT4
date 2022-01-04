@@ -1,124 +1,94 @@
 package game;
 
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
+
+import static game.Banners.*;
+import static game.Game.askAndGetInput;
 
 public class GameSession {
-	public static void main(String[] args) {
-//		SaveGame.dropEverything();              // empty the database
-		Leaderboard.createLeaderboardTable();
-		SaveGame.createAllTables();
+	private final Grid grid;
+	private boolean winner = false;
+	private boolean backToMainMenu = false;
+	PlayerHuman playerHuman;
+	PlayerCPU playerCPU;
+	private final Scanner scanner = new Scanner(System.in);
+
+	public GameSession(String name) {
+		grid = new Grid();
+		playerHuman = new PlayerHuman(name, grid, new Score());
+		playerCPU = new PlayerCPU(grid, new Score());
+	}
+
+	public GameSession(Grid grid, PlayerHuman playerHuman, PlayerCPU playerCPU) {
+		this.grid = grid;
+		this.playerHuman = playerHuman;
+		this.playerCPU = playerCPU;
+	}
+
+	public void playGame() {
 		String input;
-		Integer columnChoice;
-		Scanner scanner = new Scanner(System.in);
+		gameLoop:
+		while (grid.gridHasSpace()) {
+			printNewScreen();
+			grid.printGrid();
+			System.out.printf("%s's turn\n", playerHuman.getNAME());
 
-		while (true) {
-			Banners.printWelcomeScreen();
-
-			input = askAndGetInput(scanner);
-			while (!input.equals("n") && !input.equals("l") && !input.equals("e") && !input.equals("i")) {
-				System.out.println("Incorrect input.");
+			//      playerHuman's turn
+			boolean turnComplete = false;
+			while (!turnComplete) {
 				input = askAndGetInput(scanner);
-			}
+				backToMainMenu = checkAndDoSideAction(input, scanner, grid, playerHuman);
+				if (backToMainMenu) break gameLoop;
 
-			switch (input) {
-				case "n" -> {
-					boolean winner = false;
-					boolean backToMainMenu = false;
-
-					printNewScreen();
-					Banners.printLogo();
-					System.out.print("Type in your name: ");
-					String name;
-					name = scanner.nextLine().trim();
-					while (name.length() > 20) {
-						System.out.println("Name too long. Please use 20 characters or less.");
-						System.out.print("Type in your name: ");
-						name = scanner.nextLine().trim();
-					}
-
-					//			Initialization
-					Grid grid = new Grid();
-					PlayerHuman playerHuman = new PlayerHuman(name, grid, new Score());
-					PlayerCPU playerCPU = new PlayerCPU(grid, new Score());
-
-
-					//			main game loop
-					gameLoop:
-					while (grid.gridHasSpace()) {
-						printNewScreen();
-						grid.printGrid();
-						System.out.printf("%s's turn\n", playerHuman.getNAME());
-
-						//      playerHuman's turn
-						boolean turnComplete = false;
-						while (!turnComplete) {
-							input = askAndGetInput(scanner);
-							backToMainMenu = checkAndDoSideAction(input, scanner, grid, playerHuman);
-							if (backToMainMenu) break gameLoop;
-
-							columnChoice = getNumber(input);
-							turnComplete = isInBounds(columnChoice);
-							if (turnComplete) {
-								boolean colFull = playerHuman.dropCoin(columnChoice);
-								if (colFull) {
-									System.out.println("Column already full!");
-									turnComplete = false;
-								}
-							}
-						}
-
-						printNewScreen();
-						grid.printGrid();
-
-						//      check if playerHuman won
-						winner = grid.checkWin();
-						if (winner) {
-							System.out.printf("Player %s won!\n", playerHuman.getNAME());
-							Banners.youWin();
-							scanner.nextLine();
-							break;
-						}
-
-						//      CPU's turn
-						System.out.printf("%s's turn\n", playerCPU.getNAME());
-						System.out.print("Calculating best move");
-						sleep(500);
-						System.out.print(".");
-						sleep(500);
-						System.out.print(".");
-						sleep(500);
-						System.out.print(".");
-						sleep(500);
-						playerCPU.dropCoin();
-
-						printNewScreen();
-						grid.printGrid();
-
-						//      check if CPU won
-						winner = grid.checkWin();
-						if (winner) {
-							System.out.printf("%s won!\n", playerCPU.getNAME());
-							Banners.printGameOver();
-							scanner.nextLine();
-							break;
-						}
-					}
-
-					//      no winner & no back to main menu command was given --> TIE
-					if (!winner && !backToMainMenu) {
-						System.out.println();
-						System.out.println("Game tied... Better luck next time!");
-						scanner.nextLine();
+				Integer columnChoice = getNumber(input);
+				turnComplete = isInBounds(columnChoice);
+				if (turnComplete) {
+					boolean colFull = playerHuman.dropCoin(columnChoice);
+					if (colFull) {
+						System.out.println("Column already full!");
+						turnComplete = false;
 					}
 				}
-				case "e" -> {
-					System.out.println("Closing game...");
-					System.exit(0);
-				}
-				case "l" -> prepareLoadGame(scanner);
-				case "i" -> Banners.printInstructions(scanner);
 			}
+
+			printNewScreen();
+			grid.printGrid();
+
+			//      check if playerHuman won
+			winner = grid.checkWin();
+			if (winner) {
+				System.out.printf("Player %s won!\n", playerHuman.getNAME());
+				youWin();
+				pressEnterToContinue(scanner);
+				Leaderboard.insertToLeaderboard(playerHuman.getNAME(), playerHuman.getMoves(), playerHuman.getDuration());
+				break;
+			}
+
+			//      CPU's turn
+			System.out.printf("%s's turn\n", playerCPU.getNAME());
+			System.out.print("Calculating best move");
+			dotDotDot();
+			playerCPU.dropCoin();
+			printNewScreen();
+			grid.printGrid();
+
+			//      check if CPU won
+			winner = grid.checkWin();
+			if (winner) {
+				System.out.printf("%s won!\n", playerCPU.getNAME());
+				printGameOver();
+				pressEnterToContinue(scanner);
+				break;
+			}
+		}
+
+		//      no winner & no back to main menu command was given --> TIE
+		if (!winner && !backToMainMenu) {
+			System.out.println();
+			System.out.print("Game tied");
+			dotDotDot();
+			System.out.println(" Better luck next time!");
+			pressEnterToContinue(scanner);
 		}
 	}
 
@@ -131,41 +101,6 @@ public class GameSession {
 	 */
 	public static boolean isInBounds(Integer val) {
 		return val != null && val > 0 && val < 8;
-	}
-
-	/**
-	 Moves the screen up by 25 rows to clear the screen
-	 */
-	public static void printNewScreen() {
-		final int MAX_LINES = 25;
-		for (int i = 0; i < MAX_LINES; i++) {
-			System.out.println();
-		}
-	}
-
-	/**
-	 program waits for specified time
-
-	 @param milliseconds 1000 == 1 second
-	 */
-	public static void sleep(int milliseconds) {
-		try {
-			TimeUnit.MILLISECONDS.sleep(milliseconds);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 "Input: " gets printed on screen
-
-	 @param scanner needed to read input
-
-	 @return input as <code>String</code>
-	 */
-	public static String askAndGetInput(Scanner scanner) {
-		System.out.print("Input: ");
-		return scanner.nextLine();
 	}
 
 	/**
@@ -194,18 +129,14 @@ public class GameSession {
 		switch (input) {
 			case "s" -> {
 				SaveGame.saveGame(player.getNAME(), player.getMoves(), player.getDuration(), grid);
-				System.out.println("Saving Game");
-				sleep(500);
-				System.out.print(".");
-				sleep(500);
-				System.out.print(".");
-				sleep(500);
-				System.out.println("Game Saved, returning to Main Menu");
-				sleep(500);
+				System.out.print("Saving Game");
+				dotDotDot();
+				System.out.print("Game Saved! Returning to Main Menu");
+				dotDotDot();
 				return true;
 			}
 			case "i" -> {
-				Banners.printInstructions(scanner);
+				printInstructions(scanner);
 				printNewScreen();
 				grid.printGrid();
 				return false;
@@ -215,34 +146,11 @@ public class GameSession {
 				System.exit(0);
 			}
 			case "q" -> {
-				System.out.println("Returning to main menu...");
+				System.out.print("Returning to main menu");
+				dotDotDot();
 				return true;
 			}
 		}
 		return false;
-	}
-
-	private static void prepareLoadGame(Scanner scanner) {
-		String name;
-
-		printNewScreen();
-		System.out.print("Enter your name to look for a saved game: ");
-		name = scanner.nextLine();
-		SaveGame.loadGame(name);
-	}
-
-	private static void printLoadScreen(Scanner scanner) {
-		String s = """
-				Saved games:
-								
-				Choice          Name    Moves   Time (seconds)
-				1..............peter........3.............0:21
-				2...............seif.......20.............2:13
-								
-				Press 0 to return to the main menu
-				Choice:\040""";
-		printNewScreen();
-		System.out.print(s);
-		scanner.nextLine();
 	}
 }
