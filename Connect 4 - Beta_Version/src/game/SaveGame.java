@@ -7,9 +7,8 @@ import static game.Grid.ROWS_AMOUNT;
 import static game.Leaderboard.getConnection;
 
 /**
- * @author Seifeldin Ismail
- * @author Peter Buschenreiter
- */
+ @author Seifeldin Ismail
+ @author Peter Buschenreiter */
 
 public class SaveGame {
 
@@ -87,7 +86,7 @@ public class SaveGame {
 			assert connection != null : "Connection is null";
 
 			//			Method checks for previous record of same player name and deletes it if so.
-			checkAndDeletePlayerIfExist(playerName);
+			checkAndDeletePlayerIfExists(playerName);
 
 			pstmt = connection.prepareStatement("""
 					INSERT INTO int_gamesession (game_id)
@@ -136,9 +135,10 @@ public class SaveGame {
 
 	/**
 	 Checks if a player exists in the save&load db and deletes that player
+
 	 @param playerName <code>String</code>
 	 */
-	public static void checkAndDeletePlayerIfExist(String playerName) {
+	public static void checkAndDeletePlayerIfExists(String playerName) {
 		Connection connection = getConnection();
 		PreparedStatement pstmt1;
 		PreparedStatement pstmt2;
@@ -187,8 +187,8 @@ public class SaveGame {
 			playerQuery = pstmt.executeQuery();
 
 			if (!playerQuery.next()) {
-				System.out.println("No saved progress");
-
+				System.out.print("No saved progress");
+				Banners.dotDotDot();
 			} else {
 				grid = new Grid();
 				playerHuman = new PlayerHuman(playerQuery.getString("name"), grid, new Score(playerQuery.getInt("moves"), playerQuery.getInt("game_duration")));
@@ -211,7 +211,9 @@ public class SaveGame {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return new GameSession(grid, playerHuman, playerCPU);
+		if (grid != null && playerCPU != null && playerHuman != null)
+			return new GameSession(grid, playerHuman, playerCPU);
+		else return null;
 	}
 
 	/**

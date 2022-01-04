@@ -71,7 +71,7 @@ public class Banners {
 				|  |__| |  /  _____  \\  |  |  |  | |  |____    |  `--'  |    \\    /    |  |____ |  |\\  \\----.
 				 \\______| /__/     \\__\\ |__|  |__| |_______|    \\______/      \\__/     |_______|| _| `._____|
 				                                                                                            \s
-				Press Enter to continue\040""";
+				""";
 		System.out.println(gameOver);
 	}
 
@@ -83,7 +83,7 @@ public class Banners {
 				    \\_    _/  |  |  |  | |  |  |  |      \\            /   |  | |  . `  |\s
 				      |  |    |  `--'  | |  `--'  |       \\    /\\    /    |  | |  |\\   |\s
 				      |__|     \\______/   \\______/         \\__/  \\__/     |__| |__| \\__|\s
-				Press Enter to continue\040""";
+				""";
 		System.out.println(youWin);
 	}
 
@@ -97,10 +97,10 @@ public class Banners {
 				 - The game ends when a player connects four or all squares are filled (draw)
 				    
 				    
-				Press Enter to continue""";
+				""";
 		printNewScreen();
 		System.out.print(instructions);
-		scanner.nextLine();
+		pressEnterToContinue(scanner);
 	}
 
 

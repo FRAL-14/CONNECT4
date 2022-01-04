@@ -35,6 +35,9 @@ public class GameSession {
 		this.playerCPU = playerCPU;
 	}
 
+	/**
+	 Plays an entire game
+	 */
 	public void playGame() {
 		String input;
 		gameLoop:
@@ -71,6 +74,7 @@ public class GameSession {
 				youWin();
 				pressEnterToContinue(scanner);
 				Leaderboard.insertToLeaderboard(playerHuman.getNAME(), playerHuman.getMoves(), playerHuman.getDuration());
+				SaveGame.checkAndDeletePlayerIfExists(playerHuman.getNAME());
 				break;
 			}
 
@@ -87,6 +91,7 @@ public class GameSession {
 			if (winner) {
 				System.out.printf("%s won!\n", playerCPU.getNAME());
 				printGameOver();
+				SaveGame.checkAndDeletePlayerIfExists(playerHuman.getNAME());
 				pressEnterToContinue(scanner);
 				break;
 			}
@@ -98,6 +103,7 @@ public class GameSession {
 			System.out.print("Game tied");
 			dotDotDot();
 			System.out.println(" Better luck next time!");
+			SaveGame.checkAndDeletePlayerIfExists(playerHuman.getNAME());
 			pressEnterToContinue(scanner);
 		}
 	}
