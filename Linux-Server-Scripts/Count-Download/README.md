@@ -7,7 +7,7 @@
 3. The output is a date along with the amount of downloads for that day.
 
 ### Schedule
-This script runs everyday at 11:59pm
+This script runs every day at 11:59pm
 
 ### Locations
 
