@@ -17,7 +17,7 @@ public class Game {
 			printWelcomeScreen();
 
 			input = askAndGetInput(scanner);
-			while (!input.equals("n") && !input.equals("l") && !input.equals("e") && !input.equals("i")) {
+			while (!input.equals("n") && !input.equals("l") && !input.equals("e") && !input.equals("i") && !input.equals("s")) {
 				System.out.println("Incorrect input.");
 				input = askAndGetInput(scanner);
 			}
@@ -40,6 +40,15 @@ public class Game {
 				}
 				case "l" -> playLoadedGame(scanner);
 				case "i" -> printInstructions(scanner);
+				case "s" -> {
+					String name;
+					printNewScreen();
+					System.out.print("Enter a name to look for in the leaderboard: ");
+					name = scanner.nextLine();
+					System.out.println();
+					Leaderboard.searchPlayer(name);
+					pressEnterToContinue(scanner);
+				}
 			}
 		}
 	}

@@ -120,9 +120,8 @@ public class Leaderboard {
 	public static void searchPlayer(String playerName) {
 		Connection connection = getConnection();
 		Statement stmt;
-		String query = " SELECT LPAD(name,20,'.'),moves,game_duration " +
+		String query = " SELECT LPAD(player_name,20,'.'),moves,game_duration " +
 				"FROM int_leaderboard " +
-				"WHERE UPPER(name) = '" + playerName.toUpperCase() + "' " +
 				"ORDER BY 2,3";
 
 		try {
@@ -130,12 +129,13 @@ public class Leaderboard {
 			stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			int rank = 1;
-			while (rs.next() && rank <= 5) {
+			while (rs.next()) {
 				if (rs.isFirst()) {
 					System.out.printf("  \t\t%s  \t\t\t%s      %s\n", "Name", "Moves", "Time(seconds)");
 					System.out.println("-".repeat(45));
 				}
-				System.out.printf("%d%s \t  %d \t\t\t%d \n", rank, rs.getString(1), rs.getInt("moves"), rs.getInt("game_duration"));
+				if (rs.getString(1).contains(playerName))
+					System.out.printf("%d%s \t  %d \t\t\t%d \n", rank, rs.getString(1), rs.getInt("moves"), rs.getInt("game_duration"));
 				rank++;
 			}
 
