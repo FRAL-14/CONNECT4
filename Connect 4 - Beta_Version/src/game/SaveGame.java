@@ -196,7 +196,7 @@ public class SaveGame {
 
 				while (playerQuery.next()) {
 					if (playerQuery.getString("sign") == null)              // empty spot
-						grid.getSpot(playerQuery.getInt("y"), playerQuery.getInt("x")).setCoin(new Coin(null));
+						grid.getSpot(playerQuery.getInt("y"), playerQuery.getInt("x")).setCoin(null);
 
 					else if (playerQuery.getString("sign").equals("O"))     // Coin of human player
 						grid.getSpot(playerQuery.getInt("y"), playerQuery.getInt("x")).setCoin(new Coin(playerHuman));
