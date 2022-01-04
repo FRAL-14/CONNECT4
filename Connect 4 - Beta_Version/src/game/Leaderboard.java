@@ -5,10 +5,10 @@ import java.sql.*;
 public class Leaderboard {
 
 	public static Connection getConnection() {
-//		String jdbc = "jdbc:postgresql://localhost:5432/Connect 4 Database";
+		//		String jdbc = "jdbc:postgresql://localhost:5432/Connect 4 Database";
 		String jdbc = "jdbc:postgresql://localhost:5432/Connect4";
 		String username = "postgres";
-//		String password = "Student_1234";
+		//		String password = "Student_1234";
 		String password = "anubis512";
 
 		try {
@@ -49,24 +49,29 @@ public class Leaderboard {
 
 	/**
 	 Inserts into the Leaderboard table
-	 @param playerName <code>String</code>
-	 @param moves <code>int</code>
+
+	 @param playerName   <code>String</code>
+	 @param moves        <code>int</code>
 	 @param gameDuration <code>int</code>
 	 */
 	public static void insertToLeaderboard(String playerName, int moves, int gameDuration) {
 		Connection connection = getConnection();
-		Statement stmt;
-		String insertSql;
 
 		try {
 			assert connection != null : "Connection is null";
-			stmt = connection.createStatement();
+			String sql = """
+					INSERT INTO int_leaderboard (player_name,moves,game_duration)
+					VALUES (?,?,?)
+					""";
 
-			insertSql = "INSERT INTO int_leaderboard as il (name,moves,game_duration) " +
-					"VALUES('" + playerName + "','" + moves + "','" + gameDuration + "'";
+			PreparedStatement pstmt = connection.prepareStatement(sql);
 
-			stmt.executeUpdate(insertSql);
-			stmt.close();
+			pstmt.setString(1, playerName);
+			pstmt.setInt(2, moves);
+			pstmt.setInt(3, gameDuration);
+
+			pstmt.executeUpdate();
+			pstmt.close();
 			connection.close();
 
 		} catch (SQLException e) {
@@ -109,6 +114,7 @@ public class Leaderboard {
 
 	/**
 	 Search for a player with a name in the Leaderboard table
+
 	 @param playerName <code>String</code>
 	 */
 	public static void searchPlayer(String playerName) {
