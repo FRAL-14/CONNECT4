@@ -194,12 +194,13 @@ public class GameSession {
 		switch (input) {
 			case "s" -> {
 				SaveGame.saveGame(player.getNAME(), player.getMoves(), player.getDuration(), grid);
+				System.out.println("Saving Game");
 				sleep(500);
 				System.out.print(".");
 				sleep(500);
 				System.out.print(".");
 				sleep(500);
-				System.out.print(".");
+				System.out.print("Game Saved");
 				sleep(500);
 				return true;
 			}

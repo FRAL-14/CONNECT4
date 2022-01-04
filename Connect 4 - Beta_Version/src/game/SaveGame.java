@@ -6,6 +6,11 @@ import static game.Grid.COLUMNS_AMOUNT;
 import static game.Grid.ROWS_AMOUNT;
 import static game.Leaderboard.getConnection;
 
+/**
+ * @author Seifeldin Ismail
+ * @author Peter Buschenreiter
+ */
+
 public class SaveGame {
 
 	/**
@@ -125,7 +130,6 @@ public class SaveGame {
 			connection.close();
 			pstmt.close();
 			pstmt2.close();
-			System.out.println("Game Saved!");
 
 		} catch (SQLException e) {
 			System.out.println("Error in connection to PostgreSQL server");
