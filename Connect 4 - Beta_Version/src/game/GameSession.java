@@ -13,12 +13,22 @@ public class GameSession {
 	PlayerCPU playerCPU;
 	private final Scanner scanner = new Scanner(System.in);
 
+	/**
+	 Constructor for new games
+	 @param name <code>String</code> Name of the player
+	 */
 	public GameSession(String name) {
 		grid = new Grid();
 		playerHuman = new PlayerHuman(name, grid, new Score());
 		playerCPU = new PlayerCPU(grid, new Score());
 	}
 
+	/**
+	 Constructor for loaded games
+	 @param grid <code>Grid</code>
+	 @param playerHuman <code>PlayerHuman</code>
+	 @param playerCPU <code>PlayerCPU</code>
+	 */
 	public GameSession(Grid grid, PlayerHuman playerHuman, PlayerCPU playerCPU) {
 		this.grid = grid;
 		this.playerHuman = playerHuman;
