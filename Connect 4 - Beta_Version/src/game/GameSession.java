@@ -200,7 +200,7 @@ public class GameSession {
 				sleep(500);
 				System.out.print(".");
 				sleep(500);
-				System.out.print("Game Saved");
+				System.out.println("Game Saved, returning to Main Menu");
 				sleep(500);
 				return true;
 			}
