@@ -116,7 +116,7 @@ public class GameSession {
 					System.out.println("Closing game...");
 					System.exit(0);
 				}
-				case "l" -> printLoadScreen(scanner);
+				case "l" -> prepareLoadGame(scanner);
 				case "i" -> Banners.printInstructions(scanner);
 			}
 		}

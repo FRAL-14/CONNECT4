@@ -130,6 +130,7 @@ public class SaveGame {
 			connection.close();
 			pstmt.close();
 			pstmt2.close();
+			System.out.println("Game Saved!");
 
 		} catch (SQLException e) {
 			System.out.println("Error in connection to PostgreSQL server");
@@ -167,50 +168,54 @@ public class SaveGame {
 		}
 	}
 
-		public static void loadGame(String name) {
-			Connection connection = getConnection();
-			ResultSet playerQuery;
-			PreparedStatement pstmt;
-			String query = """
-					SELECT name,duration,x,y,sign
-					FROM int_player
-					JOIN int_spot USING (game_id)
-					JOIN int_score USING (score_id)
-					WHERE name=?
-					""";
+	public static void loadGame(String name) {
+		Connection connection = getConnection();
+		ResultSet playerQuery;
+		PreparedStatement pstmt;
+		String query = """
+				SELECT name,game_duration,x,y,sign,moves
+				FROM int_player
+				JOIN int_spot USING (game_id)
+				JOIN int_score USING (player_id)
+				WHERE name=?
+				""";
 
-			try {
-				assert connection != null;
-				pstmt = connection.prepareStatement(query);
-				pstmt.setString(1, name);
-				playerQuery = pstmt.executeQuery();
+		try {
+			assert connection != null;
+			pstmt = connection.prepareStatement(query);
+			pstmt.setString(1, name);
+			playerQuery = pstmt.executeQuery();
 
-				if (!playerQuery.next()) {
-					System.out.println("No saved progress");
-				} else {
-					Grid grid = new Grid();
-					PlayerHuman playerHuman = new PlayerHuman(playerQuery.getString("name"), grid, new Score(playerQuery.getInt("moves"), playerQuery.getInt("game_duration")));
-					PlayerCPU playerCPU = new PlayerCPU(grid,new Score());
-					// instantiate playerCPU
-					// if sign in table == O setCoin with owner playerHuman
-					// if sign in table == X setCoin with owner playerCPU
-					// else setCoin null
-					while (playerQuery.next()){
-						if (playerQuery.getString("sign").equals("O")) grid.getSpot(playerQuery.getInt("y"),playerQuery.getInt("x")).setCoin(new Coin(playerHuman));
+			if (!playerQuery.next()) {
+				System.out.println("No saved progress");
+			} else {
+				Grid grid = new Grid();
+				PlayerHuman playerHuman = new PlayerHuman(playerQuery.getString("name"), grid, new Score(playerQuery.getInt("moves"), playerQuery.getInt("game_duration")));
+				PlayerCPU playerCPU = new PlayerCPU(grid, new Score());
+				// instantiate playerCPU
+				// if sign in table == O setCoin with owner playerHuman
+				// if sign in table == X setCoin with owner playerCPU
+				// else setCoin null
+				while (playerQuery.next()) {
+					if (playerQuery.getString("sign") == null)              // empty spot
+						grid.getSpot(playerQuery.getInt("y"), playerQuery.getInt("x")).setCoin(new Coin(null));
 
-						else if (playerQuery.getString("sign").equals("X")) grid.getSpot(playerQuery.getInt("y"),playerQuery.getInt("x")).setCoin(new Coin(playerCPU));
+					else if (playerQuery.getString("sign").equals("O"))     // Coin of human player
+						grid.getSpot(playerQuery.getInt("y"), playerQuery.getInt("x")).setCoin(new Coin(playerHuman));
 
-						else  grid.getSpot(playerQuery.getInt("y"),playerQuery.getInt("x")).setCoin(new Coin(null));
-					}
+					else                                                                // Coin of CPU
+						grid.getSpot(playerQuery.getInt("y"), playerQuery.getInt("x")).setCoin(new Coin(playerCPU));
 
 				}
 
-				pstmt.close();
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
 			}
+
+			pstmt.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+	}
 
 	public static void dropEverything() {
 		Connection connection = getConnection();

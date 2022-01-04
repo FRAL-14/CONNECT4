@@ -5,11 +5,11 @@ import java.sql.*;
 public class Leaderboard {
 
 	public static Connection getConnection() {
-		String jdbc = "jdbc:postgresql://localhost:5432/Connect 4 Database";
-//		String jdbc = "jdbc:postgresql://localhost:5432/Connect4";
+//		String jdbc = "jdbc:postgresql://localhost:5432/Connect 4 Database";
+		String jdbc = "jdbc:postgresql://localhost:5432/Connect4";
 		String username = "postgres";
-		String password = "Student_1234";
-//		String password = "anubis512";
+//		String password = "Student_1234";
+		String password = "anubis512";
 
 		try {
 			return DriverManager.getConnection(jdbc, username, password);
