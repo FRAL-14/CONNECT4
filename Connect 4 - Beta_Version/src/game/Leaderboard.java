@@ -86,7 +86,7 @@ public class Leaderboard {
 	public static void printTop5Scores() {
 		Connection connection = getConnection();
 		Statement stmt;
-		String query = "SELECT LPAD(name,20,'.'),moves,game_duration FROM int_leaderboard ORDER BY 2,3";
+		String query = "SELECT LPAD(player_name,20,'.'),moves,game_duration FROM int_leaderboard ORDER BY 2,3";
 
 		try {
 			assert connection != null : "Connection is null";

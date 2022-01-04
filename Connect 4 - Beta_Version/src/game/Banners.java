@@ -105,15 +105,7 @@ public class Banners {
 
 
 	public static void printWelcomeScreen() {
-		String s = """ 
-				Highscores:
-				            Name        Moves     Time (seconds)
-				1.................xxx       8               1:16
-				2.................abc      10               1:23
-				3..............pinkie      14               1:00
-				4..............blabla      18               2:12
-				5..........helloworld      18               2:43
-				 
+		String instructions = """ 
 				Start a new game..........n
 				Load a saved game.........l
 				View game instruction.....i
@@ -122,6 +114,9 @@ public class Banners {
 				""";
 		printNewScreen();
 		Banners.printLogo();
-		System.out.print(s);
+		Leaderboard.printTop5Scores();
+		System.out.println();
+		System.out.println();
+		System.out.print(instructions);
 	}
 }
