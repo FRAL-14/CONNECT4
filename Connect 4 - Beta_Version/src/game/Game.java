@@ -7,6 +7,7 @@ import static game.Banners.*;
 public class Game {
 	public static void main(String[] args) {
 //		SaveGame.dropEverything();              // empty the database
+		Leaderboard.createDatabase();
 		Leaderboard.createLeaderboardTable();
 		SaveGame.createAllTables();
 
