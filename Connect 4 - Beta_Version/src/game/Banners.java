@@ -22,7 +22,7 @@ public class Banners {
 	 Moves the screen up by 25 rows to clear the screen
 	 */
 	public static void printNewScreen() {
-		final int MAX_LINES = 30;
+		final int MAX_LINES = 35;
 		for (int i = 0; i < MAX_LINES; i++) {
 			System.out.println();
 		}
