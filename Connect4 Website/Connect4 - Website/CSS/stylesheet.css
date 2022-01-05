@@ -29,6 +29,12 @@ p {
     padding: 10px 15%;
 }
 
+a {
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+}
+
 .centered {
     text-align: center;
 }
@@ -53,12 +59,6 @@ nav ul {
     border-bottom: darkgray solid 1px;
 }
 
-a {
-    text-decoration: none;
-    font-weight: bold;
-    color: black;
-}
-
 nav a {
     padding: 15px;
     border-radius: 50% 10% / 100%;
@@ -66,8 +66,6 @@ nav a {
 
 nav a:hover {
     color: red;
-    /*background: linear-gradient(rgb(219, 166, 166), rgb(0, 0, 172));*/
-    /*    TODO: glass morphism hover effect*/
 }
 
 nav .current {
