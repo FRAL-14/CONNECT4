@@ -2,7 +2,7 @@
 
 ### Steps of the script
 
-1. Open the file 'filesBackup.txt' located in /opt/scripts/backup-script/backup
+1. Open the file 'filesBackup.txt' located in /opt/scripts/Backup/
 2. Type in all directories you want to be backed up (1 directory/file per line)
 3. Very important to check your spelling, the script will run even if you spell something wrong. 
 4. In case an invalid line was found, it will delete it and inform you that it has been deleted in the log. 
