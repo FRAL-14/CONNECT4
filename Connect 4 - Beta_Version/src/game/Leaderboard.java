@@ -27,16 +27,18 @@ public class Leaderboard {
 		Connection connection = getConnection();
 		Statement stmt;
 		String CreateSql;
-
 		try {
 			assert connection != null : "Connection is null";
 			stmt = connection.createStatement();
 			CreateSql = """
-					CREATE TABLE IF NOT EXISTS int_leaderboard(
-					name VARCHAR(20) NOT NULL,
-					moves INT,
-					game_duration INT
-					)
+					CREATE TABLE int_leaderboard(
+					    player_id      BIGSERIAL
+					        CONSTRAINT int_leaderboard_pkey
+					            PRIMARY KEY,
+					    player_name    VARCHAR(20) NOT NULL,
+					    last_played_at TIMESTAMP DEFAULT NOW( ),
+					    moves          INTEGER,
+					    game_duration  INTEGER     NOT NULL);
 					""";
 			stmt.executeUpdate(CreateSql);
 			stmt.close();
@@ -123,7 +125,7 @@ public class Leaderboard {
 		String query = " SELECT LPAD(player_name,20,'.'),moves,game_duration " +
 				"FROM int_leaderboard " +
 				"ORDER BY 2,3";
-
+		//TODO weird double nextLine() ???
 		try {
 			assert connection != null : "Connection is null";
 			stmt = connection.createStatement();

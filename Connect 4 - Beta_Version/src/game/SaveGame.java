@@ -235,6 +235,8 @@ public class SaveGame {
 					DROP TABLE IF EXISTS int_player CASCADE;
 					                
 					DROP TABLE IF EXISTS int_gamesession CASCADE;
+										
+					DROP TABLE IF EXISTS int_leaderboard CASCADE;
 					                
 					DROP SEQUENCE IF EXISTS player_id_seq CASCADE ;
 					                
