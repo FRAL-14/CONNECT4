@@ -4,17 +4,49 @@ import java.sql.*;
 
 public class Leaderboard {
 
+	protected static String jdbc = "jdbc:postgresql://localhost:5432/connect4database";
+	protected static String username = "postgres";
+	//	protected static String password = "anubis512";
+	protected static String password = "Student_1234";
+
+
+	/**
+	 Creates the database in case it doesn't exist
+	 */
+	public static void createDatabase() {
+		String jdbc = "jdbc:postgresql://localhost/";
+
+		try {
+			Connection connection = DriverManager.getConnection(jdbc, username, password);
+			Statement statement = connection.createStatement();
+
+			String sql = "SELECT datname FROM pg_database WHERE datname = 'connect4database';";
+
+			ResultSet rs = statement.executeQuery(sql);
+
+			if (!rs.next()) { // when resultSet is empty
+				sql = "CREATE DATABASE connect4database";
+				statement.executeUpdate(sql);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error while creating the database");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 Sets up postgres server connection
+
+	 @return <code>Connection</code>
+	 */
 	public static Connection getConnection() {
-		//		String jdbc = "jdbc:postgresql://localhost:5432/Connect 4 Database";
-		String jdbc = "jdbc:postgresql://localhost:5432/Connect4";
-		String username = "postgres";
-		//		String password = "Student_1234";
-		String password = "anubis512";
 
 		try {
 			return DriverManager.getConnection(jdbc, username, password);
 
 		} catch (SQLException e) {
+			System.out.println("Error while creating the connection to the postgres database");
 			e.printStackTrace();
 		}
 		return null;
@@ -31,7 +63,7 @@ public class Leaderboard {
 			assert connection != null : "Connection is null";
 			stmt = connection.createStatement();
 			CreateSql = """
-					CREATE TABLE int_leaderboard(
+					CREATE TABLE IF NOT EXISTS int_leaderboard(
 					    player_id      BIGSERIAL
 					        CONSTRAINT int_leaderboard_pkey
 					            PRIMARY KEY,
