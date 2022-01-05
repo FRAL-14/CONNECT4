@@ -1,20 +1,33 @@
 package game;
 
 import java.sql.*;
+import java.util.Scanner;
 
 public class Leaderboard {
 
-	protected static String jdbc = "jdbc:postgresql://localhost:5432/connect4database";
-	protected static String username = "postgres";
-	//	protected static String password = "anubis512";
+	private static final String jdbc = "jdbc:postgresql://localhost:5432/connect4database";
+	private static final String username = "postgres";
 	protected static String password = "Student_1234";
 
 
 	/**
+	 Asks for postgres password and saves it in class variable password
+	 <br>
 	 Creates the database in case it doesn't exist
 	 */
 	public static void createDatabase() {
 		String jdbc = "jdbc:postgresql://localhost/";
+		Scanner scanner = new Scanner(System.in);
+		String pw;
+
+		Banners.printNewScreen();
+		System.out.print("Please enter your postgres password (Default = Student_1234): ");
+
+		pw = scanner.nextLine().trim();
+
+		if (!pw.equals("")) {   // keep default password if no password was entered
+			password = pw;
+		}
 
 		try {
 			Connection connection = DriverManager.getConnection(jdbc, username, password);
@@ -31,7 +44,7 @@ public class Leaderboard {
 
 		} catch (SQLException e) {
 			System.out.println("Error while creating the database");
-			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 
