@@ -110,7 +110,7 @@ public class Banners {
 				Load a saved game.........l
 				Search the leaderboard....s
 				View game instruction.....i
-				Close game................e
+				Exit game.................e
 								
 				""";
 		printNewScreen();
