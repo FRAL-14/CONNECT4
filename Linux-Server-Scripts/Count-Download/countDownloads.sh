@@ -34,14 +34,14 @@ then
   echo -e "<!DOCTYPE html> <html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<title>Download Statistics</title>\n</head>\n<body>\n" >> "${htmlLocation}"
 else
 
-:'
-This was an attempt at making the script better. You can ignore this.
-if [[ $(cat "${htmlLocation}" | grep "${dateFunction}") == "${dateFunction}" ]]
-then
-  echo "pattern matches, we should delete that line and make a new one"
-  sed -i "/$(date +%d\ %b  | sed 's%/0%/%g' | tr '[:upper:]' '[:lower:]')/d" "${htmlLocation}"
-fi
-'
+
+#This was an attempt at making the script better. You can ignore this.
+#if [[ $(cat "${htmlLocation}" | grep "${dateFunction}") == "${dateFunction}" ]]
+#then
+#  echo "pattern matches, we should delete that line and make a new one"
+#  sed -i "/$(date +%d\ %b  | sed 's%/0%/%g' | tr '[:upper:]' '[:lower:]')/d" "${htmlLocation}"
+#fi
+
   sed -i '/Total/d' "${htmlLocation}"
   sed -i '/This script took/d' "${htmlLocation}"
   sed -i '/Last updated on/d' "${htmlLocation}"
