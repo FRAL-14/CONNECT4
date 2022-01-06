@@ -4,7 +4,6 @@
 	<meta charset="UTF-8">
 	<title>CONNECT-4 - Download</title>
 	<link rel="stylesheet" href="../CSS/stylesheet.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="icon" href="../MEDIA/layout/icon.png">
 	<link rel="apple-touch-icon" href="../MEDIA/layout/icon.png">
 </head>
@@ -12,7 +11,7 @@
 <body>
 
 <header>
-	<img class="logo" src="../MEDIA/layout/logo1.png" alt="Connect 4 logo" />
+	<img id="logo" src="../MEDIA/layout/logo1.png" alt="Connect 4 logo" />
 	<nav>
 		<ul>
 			<li><a href="../index.html">HOME</a></li>
@@ -25,40 +24,29 @@
 
 <div class="click-download">
 	<a href="../MEDIA/download-files/connect4.jar" download="connect4">
-		<button class="button"><i class="fa fa-download"></i> DOWNLOAD</button>
+		<button class="button">DOWNLOAD</button>
 	</a>
 </div>
 
 <main>
+
+	<!--	FIXME: How to run -> new instructions		-->
 	<section>
-		<h2>How to install the game:</h2>
-		<p>Once you have clicked on the Download button above, you will to see a <strong>.zip</strong> file in the
-		   download bar
-		   at
-		   the bottom left of your screen.
-		</p>
-		<p>
-			Once it finished downloading, you will find it in your file explorer. Now <a
-				href="https://support.microsoft.com/en-us/windows/zip-and-unzip-files-f6dde0a7-0fec-8294-e1d3-703ed85e7ebc">unzip</a>
-			the file in the same folder.
-		</p>
+		<h2>Requirements</h2>
+		<ul>
+			<li><a href="https://www.oracle.com/java/technologies/downloads/">Java 17</a> installed</li>
+			<li><a href="https://www.postgresql.org/download/">PostgreSQL</a> installed</li>
+		</ul>
 	</section>
 
 	<section>
-		<h2>How to run:</h2>
-		<p>The "path" is where your downloaded and extracted folder is. Find it and then <a
-				href="https://www.howtogeek.com/670447/how-to-copy-the-full-path-of-a-file-on-windows-10/">copy</a> the
-		   path.
-		<ol>
+		<h2>How to run</h2>
+		<ul>
 			<li>Open your terminal (<a
 					href="https://www.lifewire.com/how-to-open-command-prompt-2618089">Windows</a> & <a
-					href="https://www.howtogeek.com/682770/how-to-open-the-terminal-on-a-mac/">Mac</a>)
-			</li>
-			<li>cd Downloads</li>
-			<li>javac -d IdkTheNameOfTheZipYet</li>
-			<li>cd SameNameAsAboveWithout.zip</li>
-			<li>java GameSession.java</li>
-		</ol>
+					href="https://www.howtogeek.com/682770/how-to-open-the-terminal-on-a-mac/">Mac</a>)</li>
+			<li>Paste this command into the terminal and run it: <code>java -jar Download/connect4.jar</code></li>
+		</ul>
 	</section>
 </main>
 

@@ -40,9 +40,9 @@ a {
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
-/* LOGO & NAVIGATION */
+/* LOGO & NAVIGATION & FOOTER*/
 
-.logo {
+#logo {
     margin: auto;
     display: block;
     padding: 15px 25px;
@@ -72,15 +72,9 @@ nav .current {
     color: blue;
 }
 
-/* ----------------------------------------------------------------------------------------------------------------- */
-/* FOOTER */
-
-.footer {
-    margin-top: auto;
+footer {
+    margin-top: auto; /* this puts the footer always at the bottom of the screen */
     background-color: black;
-}
-
-.footer-container {
     color: white;
     text-align: center;
     padding-top: 20px;
@@ -148,9 +142,26 @@ section a:hover {
     text-decoration: underline;
 }
 
-ol {
-    padding: 0 5%;
+code {
+    font-family: monospace;
+    display: block;
+    background-color: #041421;
+    color: turquoise;
+    padding: 5px;
+    margin: 5px 0;
+    border-radius: 10px;
+    border: 1px solid dimgray;
+    box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.4);
+    white-space: nowrap;
+    overflow: auto;
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    overflow-y: scroll;
 }
+
+code::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
+
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* ABOUT PAGE */
