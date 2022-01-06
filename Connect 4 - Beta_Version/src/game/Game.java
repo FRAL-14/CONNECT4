@@ -83,6 +83,7 @@ public class Game {
 	 @return input as <code>String</code>
 	 */
 	public static String askAndGetInput(Scanner scanner) {
+		System.out.println();
 		System.out.print("Input: ");
 		return scanner.nextLine();
 	}

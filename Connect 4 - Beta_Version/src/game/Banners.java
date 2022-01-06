@@ -32,6 +32,7 @@ public class Banners {
 	 Prints "Press Enter to continue" and waits for a new line input
 	 */
 	public static void pressEnterToContinue(Scanner scanner) {
+		System.out.println();
 		System.out.print("Press Enter to continue. ");
 		scanner.nextLine();
 	}
@@ -111,7 +112,6 @@ public class Banners {
 				Search the leaderboard....s
 				View game instruction.....i
 				Exit game.................e
-								
 				""";
 		printNewScreen();
 		Banners.printLogo();

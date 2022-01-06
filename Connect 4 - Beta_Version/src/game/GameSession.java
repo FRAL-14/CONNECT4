@@ -44,6 +44,7 @@ public class GameSession {
 		while (grid.gridHasSpace()) {
 			printNewScreen();
 			grid.printGrid();
+			System.out.println();
 			System.out.printf("%s's turn\n", playerHuman.getNAME());
 
 			//      playerHuman's turn
@@ -79,7 +80,7 @@ public class GameSession {
 			}
 
 			//      CPU's turn
-			System.out.printf("%s's turn\n", playerCPU.getNAME());
+			System.out.printf("\n%s's turn\n\n", playerCPU.getNAME());
 			System.out.print("Calculating best move");
 			dotDotDot();
 			playerCPU.dropCoin();

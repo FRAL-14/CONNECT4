@@ -133,7 +133,7 @@ public class Leaderboard {
 	public static void printTop5Scores() {
 		Connection connection = getConnection();
 		Statement stmt;
-		String query = "SELECT LPAD(player_name,20,'.'),moves,game_duration FROM int_leaderboard ORDER BY 2,3";
+		String query = "SELECT LPAD(player_name,34,'.'),moves,game_duration FROM int_leaderboard ORDER BY 2,3";
 
 		try {
 			assert connection != null : "Connection is null";
@@ -145,10 +145,10 @@ public class Leaderboard {
 			while (rs.next() && rank <= 5) {
 
 				if (rs.isFirst()) {
-					System.out.printf("  \t\t%s  \t\t\t%s      %s\n", "Name", "Moves", "Time(seconds)");
-					System.out.println("-".repeat(45));
+					System.out.printf("%35s%10s%10s\n", "Name", "Moves", "Duration");
+					System.out.println("-".repeat(55));
 				}
-				System.out.printf("%d%s \t  %d \t\t\t%d \n", rank, rs.getString(1), rs.getInt("moves"), rs.getInt("game_duration"));
+				System.out.printf("%1d%34s%10d%10d\n", rank, rs.getString(1), rs.getInt("moves"), rs.getInt("game_duration"));
 				rank++;
 			}
 			stmt.close();
@@ -167,10 +167,9 @@ public class Leaderboard {
 	public static void searchPlayer(String playerName) {
 		Connection connection = getConnection();
 		Statement stmt;
-		String query = " SELECT LPAD(player_name,20,'.'),moves,game_duration " +
+		String query = " SELECT LPAD(player_name,32,'.'),moves,game_duration " +
 				"FROM int_leaderboard " +
 				"ORDER BY 2,3";
-		//TODO weird double nextLine() ???
 		try {
 			assert connection != null : "Connection is null";
 			stmt = connection.createStatement();
@@ -179,12 +178,11 @@ public class Leaderboard {
 			while (rs.next()) {
 				if (rs.isFirst()) {
 
-					//FIXME: no use of tabs (different sizes in different terminals
-					System.out.printf("  \t\t%s  \t\t\t%s      %s\n", "Name", "Moves", "Time(seconds)");
-					System.out.println("-".repeat(45));
+					System.out.printf("%35s%10s%10s\n", "Name", "Moves", "Duration");
+					System.out.println("-".repeat(55));
 				}
 				if (rs.getString(1).contains(playerName))
-					System.out.printf("%d%s \t  %d \t\t\t%d \n", rank, rs.getString(1), rs.getInt("moves"), rs.getInt("game_duration"));
+					System.out.printf("%3d%32s%10d%10d\n", rank, rs.getString(1), rs.getInt("moves"), rs.getInt("game_duration"));
 				rank++;
 			}
 
