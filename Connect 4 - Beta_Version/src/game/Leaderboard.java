@@ -59,7 +59,7 @@ public class Leaderboard {
 			return DriverManager.getConnection(jdbc, username, password);
 
 		} catch (SQLException e) {
-			System.out.println("Error while creating the connection to the postgres database");
+			System.out.println("Error while creating the connection to the postgres");
 			e.printStackTrace();
 		}
 		return null;
@@ -89,7 +89,7 @@ public class Leaderboard {
 			stmt.close();
 			connection.close();
 		} catch (SQLException e) {
-			System.out.println("Error in connection to PostgreSQL server");
+			System.out.println("Error while creating Leaderboard table.");
 			e.printStackTrace();
 		}
 	}
@@ -122,7 +122,7 @@ public class Leaderboard {
 			connection.close();
 
 		} catch (SQLException e) {
-			System.out.println("Error in connection to PostgreSQL server");
+			System.out.println("Error while inserting into leaderboard table.");
 			e.printStackTrace();
 		}
 	}
@@ -154,7 +154,7 @@ public class Leaderboard {
 			stmt.close();
 			connection.close();
 		} catch (SQLException e) {
-			System.out.println("Error in connection to PostgreSQL server");
+			System.out.println("Error while displaying top 5 scores.");
 			e.printStackTrace();
 		}
 	}
@@ -178,6 +178,8 @@ public class Leaderboard {
 			int rank = 1;
 			while (rs.next()) {
 				if (rs.isFirst()) {
+
+					//FIXME: no use of tabs (different sizes in different terminals
 					System.out.printf("  \t\t%s  \t\t\t%s      %s\n", "Name", "Moves", "Time(seconds)");
 					System.out.println("-".repeat(45));
 				}
@@ -189,7 +191,7 @@ public class Leaderboard {
 			stmt.close();
 			connection.close();
 		} catch (SQLException e) {
-			System.out.println("Error in connection to PostgreSQL server");
+			System.out.println("Error while searching for a name in the leaderboard table.");
 			e.printStackTrace();
 		}
 	}
