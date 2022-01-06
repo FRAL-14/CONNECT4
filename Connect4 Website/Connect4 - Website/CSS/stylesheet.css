@@ -17,7 +17,7 @@ main {
 }
 
 section {
-    margin: 25px 15%;
+    margin: 25px;
 }
 
 h1, h2 {
@@ -39,6 +39,12 @@ a {
     text-align: center;
 }
 
+.flex-container {
+    justify-content: space-around;
+    display: flex;
+    flex-wrap: wrap;
+}
+
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* LOGO & NAVIGATION & FOOTER*/
 
@@ -54,9 +60,11 @@ nav ul {
     list-style-type: none;
     display: flex;
     padding: 25px 0;
-    margin: 0 25px;
+    margin: auto;
     justify-content: space-around;
     border-bottom: darkgray solid 1px;
+    width: 95%;
+    max-width: 1900px;
 }
 
 nav a {
@@ -85,11 +93,8 @@ footer {
 /* HOME PAGE */
 
 .banner {
-    margin-top: 40px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 40px auto;
     width: 100%;
-    height: auto;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
@@ -105,14 +110,14 @@ footer {
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* DOWNLOAD PAGE */
 
-.click-download {
-    margin-top: 30px;
+.flex-centered {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .button {
+    margin-top: 30px;
     background-color: green;
     border: 1px solid;
     color: white;
@@ -129,8 +134,12 @@ footer {
     color: black;
 }
 
-main section p {
+#indented {
     padding: 0 0 0 35px;
+}
+
+#downloads {
+    margin: 0 15%;
 }
 
 section a {
@@ -145,6 +154,7 @@ section a:hover {
 code {
     display: block;
     background-color: #041421;
+    max-width: 350px;
     color: yellow;
     font-family: monospace;
     padding: 5px;
@@ -165,12 +175,6 @@ code::-webkit-scrollbar {
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* ABOUT PAGE */
-
-.flex-container {
-    justify-content: space-around;
-    display: flex;
-    flex-wrap: wrap;
-}
 
 figure {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -193,6 +197,14 @@ figcaption {
     color: dimgray;
     padding-bottom: 15px;
     text-align: center;
+}
+
+q {
+    display: block;
+    box-sizing: border-box;
+    max-width: 350px;
+    padding: 15px;
+    height: auto;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
