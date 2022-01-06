@@ -64,7 +64,7 @@ public class SaveGame {
 			stmt.close();
 			connection.close();
 		} catch (SQLException e) {
-			System.out.println("Error in connection to PostgreSQL server");
+			System.out.println("Error while trying to create save & load tables.");
 			e.printStackTrace();
 		}
 	}
@@ -128,7 +128,7 @@ public class SaveGame {
 			pstmt.close();
 			pstmt2.close();
 		} catch (SQLException e) {
-			System.out.println("Error in connection to PostgreSQL server");
+			System.out.println("Error while trying to save a game.");
 			e.printStackTrace();
 		}
 	}
@@ -153,17 +153,60 @@ public class SaveGame {
 				pstmt2 = connection.prepareStatement("""
 						DELETE FROM int_gamesession
 						USING int_player
-						WHERE int_player.name = ?
+						WHERE int_gamesession.game_id = int_player.game_id AND int_player.name = ?
 						""");
 				pstmt2.setString(1, playerName);
 				pstmt2.executeUpdate();
 			}
 		} catch (SQLException e) {
-			System.out.println("Error in connection to PostgreSQL server");
+			System.out.println("Error while trying to delete a saved game.");
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 Displays names, moves and durations of available games to load.
+
+	 @return <code>boolean</code>: <code>True</code> if at least 1 game available to load, otherwise <code>False</code>
+	 */
+	public static boolean printSavedGames() {
+		Connection connection = getConnection();
+		Statement stmt;
+		String presentQuery = """
+				         SELECT name, moves, game_duration
+				         FROM int_player JOIN int_score USING (player_id)
+				         ORDER BY 1;
+				""";
+		try {
+			assert connection != null;
+			stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery(presentQuery);
+
+			if (!rs.next()) {
+				return false;
+			}
+			System.out.printf("%35s%10s%10s\n", "Name", "Moves", "Duration");
+			System.out.println("-".repeat(55));
+			do {
+				System.out.printf("%35s%10d%10d\n", rs.getString(1), rs.getInt(2), rs.getInt(3));
+			} while (rs.next());
+			System.out.println("-".repeat(55));
+
+		} catch (SQLException e) {
+			System.out.println("Error while displaying saved games.");
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+
+	/**
+	 Loads a saved game if it exists
+
+	 @param name <code>String</code>: name of the player
+
+	 @return <code>GameSession</code> or <code>null</code> if no game is available to load under that name
+	 */
 	public static GameSession loadGame(String name) {
 		PlayerCPU playerCPU = null;
 		PlayerHuman playerHuman = null;
@@ -172,7 +215,8 @@ public class SaveGame {
 		Connection connection = getConnection();
 		ResultSet playerQuery;
 		PreparedStatement pstmt;
-		String query = """
+
+		String searchQuery = """
 				SELECT name,game_duration,x,y,sign,moves
 				FROM int_player
 				JOIN int_spot USING (game_id)
@@ -182,7 +226,7 @@ public class SaveGame {
 
 		try {
 			assert connection != null;
-			pstmt = connection.prepareStatement(query);
+			pstmt = connection.prepareStatement(searchQuery);
 			pstmt.setString(1, name);
 			playerQuery = pstmt.executeQuery();
 
@@ -195,20 +239,23 @@ public class SaveGame {
 				playerCPU = new PlayerCPU(grid, new Score());
 
 				while (playerQuery.next()) {
-					if (playerQuery.getString("sign") == null)              // empty spot
+					if (playerQuery.getString("sign") == null)                  // empty spot
 						grid.getSpot(playerQuery.getInt("y"), playerQuery.getInt("x")).setCoin(null);
 
-					else if (playerQuery.getString("sign").equals("O"))     // Coin of human player
+					else if (playerQuery.getString("sign").equals("O")) {       // Coin of human player
 						grid.getSpot(playerQuery.getInt("y"), playerQuery.getInt("x")).setCoin(new Coin(playerHuman));
-
-					else                                                                // Coin of CPU
+						grid.addCoin();     // to keep track of amount of coins in the grid
+					} else {                                                                // Coin of CPU
 						grid.getSpot(playerQuery.getInt("y"), playerQuery.getInt("x")).setCoin(new Coin(playerCPU));
+						grid.addCoin();     // to keep track of amount of coins in the grid
+					}
 
 				}
 			}
 			pstmt.close();
 			connection.close();
 		} catch (SQLException e) {
+			System.out.println("Error while trying to load a game. ");
 			e.printStackTrace();
 		}
 		if (grid != null && playerCPU != null && playerHuman != null)
@@ -247,6 +294,7 @@ public class SaveGame {
 			stmt.close();
 			connection.close();
 		} catch (SQLException e) {
+			System.out.println("Error while trying to drop all tables and sequences.");
 			e.printStackTrace();
 		}
 	}

@@ -39,10 +39,11 @@ public class Game {
 					System.out.println("Closing game...");
 					System.exit(0);
 				}
-				case "l" -> playLoadedGame(scanner);
+				case "l" -> tryToLoadGame(scanner);
 				case "i" -> printInstructions(scanner);
 				case "s" -> {
 					String name;
+
 					printNewScreen();
 					System.out.print("Enter a name to look for in the leaderboard: ");
 					name = scanner.nextLine();
@@ -92,11 +93,19 @@ public class Game {
 
 	 @param scanner <code>Scanner</code>
 	 */
-	private static void playLoadedGame(Scanner scanner) {
+	private static void tryToLoadGame(Scanner scanner) {
 		String name;
 		GameSession gameSession;
+		boolean gamesAvailable;
 
 		printNewScreen();
+		gamesAvailable = SaveGame.printSavedGames();
+		if (!gamesAvailable) {
+			System.out.println("No saved games found");
+			dotDotDot();
+			return;
+		}
+
 		System.out.print("Enter your name to look for a saved game: ");
 		name = scanner.nextLine();
 		gameSession = SaveGame.loadGame(name);
