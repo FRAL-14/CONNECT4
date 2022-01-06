@@ -15,7 +15,7 @@ lastUpdatedDate=$(date +%d\ %b\ %H:%M | tr '[:upper:]' '[:lower:]')
 
 
 #Name of zip-file to look for in logs
-zipName=Welcomescreen.png
+zipName=connect4.jar
 
 apacheLog=/var/log/apache2/access.log
 
