@@ -17,7 +17,7 @@ main {
 }
 
 section {
-    margin: 10px 15%;
+    margin: 25px 15%;
 }
 
 h1, h2 {
@@ -130,7 +130,7 @@ footer {
 }
 
 main section p {
-    padding: 10px 5%;
+    padding: 0 0 0 35px;
 }
 
 section a {
@@ -143,10 +143,10 @@ section a:hover {
 }
 
 code {
-    font-family: monospace;
     display: block;
     background-color: #041421;
-    color: turquoise;
+    color: yellow;
+    font-family: monospace;
     padding: 5px;
     margin: 5px 0;
     border-radius: 10px;
