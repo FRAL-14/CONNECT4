@@ -26,7 +26,8 @@ h1, h2 {
 }
 
 p {
-    padding: 10px 15%;
+    padding: 10px 5%;
+    max-width: 1800px;
 }
 
 a {
@@ -97,6 +98,13 @@ footer {
     width: 100%;
 }
 
+video {
+    margin: 30px;
+    height: auto;
+    width: 95%;
+    max-width: 1800px;
+}
+
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* PREVIEW PAGE */
 
@@ -113,11 +121,9 @@ footer {
 .flex-centered {
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 button {
-    margin-top: 30px;
     background-color: green;
     border: 1px solid;
     color: white;
@@ -134,7 +140,7 @@ button:hover {
     color: black;
 }
 
-#indented {
+.indented {
     padding: 0 0 0 35px;
 }
 
@@ -149,6 +155,10 @@ section a {
 
 section a:hover {
     text-decoration: underline;
+}
+
+article {
+    margin: 50px 0;
 }
 
 code {
