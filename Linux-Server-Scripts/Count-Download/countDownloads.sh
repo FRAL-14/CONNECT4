@@ -5,7 +5,7 @@
 startTime=$(date +%s)
 
 #file path of html file
-htmlLocation=/home/team1/download-Statistics.html
+htmlLocation=/var/www/html/HTML/download-Statistics.html
 
 #Date: sed deletes the 0 as specified on Infra Document
 dateFunction=$(date +%d\ %b  | sed 's%/0%/%g' | tr '[:upper:]' '[:lower:]')
