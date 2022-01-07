@@ -33,7 +33,7 @@ public class Banners {
 	 */
 	public static void pressEnterToContinue(Scanner scanner) {
 		System.out.println();
-		System.out.print("Press Enter to continue. ");
+		System.out.print("Press Enter to continue ");
 		scanner.nextLine();
 	}
 
