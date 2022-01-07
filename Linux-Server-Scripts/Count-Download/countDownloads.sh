@@ -15,7 +15,9 @@ lastUpdatedDate=$(date +%d\ %b\ %H:%M | tr '[:upper:]' '[:lower:]')
 
 
 #Name of zip-file to look for in logs
-zipName=connect4.jar
+#We get both the connect4.jar and connect4.zip
+#Depending on which button was pressed
+zipName=connect4
 
 apacheLog=/var/log/apache2/access.log
 
@@ -50,6 +52,8 @@ fi
 
 # shellcheck disable=SC2129
 echo "<p>${dateFunction} - ${amountOfDownloads} downloads</p>" >> "${htmlLocation}"
+
+
 
 totalDownload=$(cat "${htmlLocation}" | grep "<p>" | grep -E "[^0-9][0-9]+" | awk '{ SUM += $4;} END { print SUM;}')
 echo -e "<p>Total: ${totalDownload} downloads.</p>" >> "${htmlLocation}"
