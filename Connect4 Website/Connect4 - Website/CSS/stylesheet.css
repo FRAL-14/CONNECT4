@@ -116,7 +116,7 @@ footer {
     align-items: center;
 }
 
-.button {
+button {
     margin-top: 30px;
     background-color: green;
     border: 1px solid;
@@ -129,7 +129,7 @@ footer {
     box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.4);
 }
 
-.button:hover {
+button:hover {
     background-color: yellowgreen;
     color: black;
 }
