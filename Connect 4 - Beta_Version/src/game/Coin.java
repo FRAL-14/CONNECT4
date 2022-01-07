@@ -10,4 +10,9 @@ public class Coin {
 	public char getSign() {
 		return owner.getSign();
 	}
+
+	@Override
+	public String toString() {
+		return String.format("%c", getSign());
+	}
 }

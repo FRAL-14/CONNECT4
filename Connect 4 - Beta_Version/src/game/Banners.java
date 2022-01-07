@@ -5,6 +5,15 @@ import java.util.concurrent.TimeUnit;
 
 public class Banners {
 
+	public static String[] controls = {
+			"\t\t\tControls:",
+			"\t\t\tSave...................s",
+			"\t\t\tExit...................e",
+			"\t\t\tInstructions...........i",
+			"\t\t\tReturn to main menu....q",
+			"\t\t\tChoose column........1-7",
+	};
+
 	/**
 	 program waits for specified time
 
@@ -76,7 +85,7 @@ public class Banners {
 		System.out.println(gameOver);
 	}
 
-	public static void youWin() {
+	public static void printYouWin() {
 		String youWin = """
 				  ____    ____  ______    __    __     ____    __    ____  __  .__   __.\s
 				  \\   \\  /   / /  __  \\  |  |  |  |    \\   \\  /  \\  /   / |  | |  \\ |  |\s
@@ -112,6 +121,7 @@ public class Banners {
 				Search the leaderboard....s
 				View game instruction.....i
 				Exit game.................e
+				Delete database...........d
 				""";
 		printNewScreen();
 		Banners.printLogo();

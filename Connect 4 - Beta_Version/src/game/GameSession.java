@@ -15,6 +15,7 @@ public class GameSession {
 
 	/**
 	 Constructor for new games
+
 	 @param name <code>String</code> Name of the player
 	 */
 	public GameSession(String name) {
@@ -25,9 +26,10 @@ public class GameSession {
 
 	/**
 	 Constructor for loaded games
-	 @param grid <code>Grid</code>
+
+	 @param grid        <code>Grid</code>
 	 @param playerHuman <code>PlayerHuman</code>
-	 @param playerCPU <code>PlayerCPU</code>
+	 @param playerCPU   <code>PlayerCPU</code>
 	 */
 	public GameSession(Grid grid, PlayerHuman playerHuman, PlayerCPU playerCPU) {
 		this.grid = grid;
@@ -40,11 +42,11 @@ public class GameSession {
 	 */
 	public void playGame() {
 		String input;
+
 		gameLoop:
 		while (grid.gridHasSpace()) {
 			printNewScreen();
-			grid.printGrid();
-			System.out.println();
+			System.out.println(grid);
 			System.out.printf("%s's turn\n", playerHuman.getNAME());
 
 			//      playerHuman's turn
@@ -66,13 +68,13 @@ public class GameSession {
 			}
 
 			printNewScreen();
-			grid.printGrid();
+			System.out.println(grid);
 
 			//      check if playerHuman won
 			winner = grid.checkWin();
 			if (winner) {
 				System.out.printf("Player %s won!\n", playerHuman.getNAME());
-				youWin();
+				printYouWin();
 				pressEnterToContinue(scanner);
 				Leaderboard.insertToLeaderboard(playerHuman.getNAME(), playerHuman.getMoves(), playerHuman.getDuration());
 				SaveGame.checkAndDeletePlayerIfExists(playerHuman.getNAME());
@@ -84,8 +86,6 @@ public class GameSession {
 			System.out.print("Calculating best move");
 			dotDotDot();
 			playerCPU.dropCoin();
-			printNewScreen();
-			grid.printGrid();
 
 			//      check if CPU won
 			winner = grid.checkWin();
@@ -100,6 +100,8 @@ public class GameSession {
 
 		//      no winner & no back to main menu command was given --> TIE
 		if (!winner && !backToMainMenu) {
+			printNewScreen();
+			System.out.println(grid);
 			System.out.println();
 			System.out.print("Game tied");
 			dotDotDot();
@@ -155,7 +157,7 @@ public class GameSession {
 			case "i" -> {
 				printInstructions(scanner);
 				printNewScreen();
-				grid.printGrid();
+				System.out.println(grid);
 				return false;
 			}
 			case "e" -> {

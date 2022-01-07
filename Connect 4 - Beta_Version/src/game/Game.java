@@ -18,7 +18,7 @@ public class Game {
 			printWelcomeScreen();
 
 			input = askAndGetInput(scanner);
-			while (!input.equals("n") && !input.equals("l") && !input.equals("e") && !input.equals("i") && !input.equals("s")) {
+			while (!input.equals("n") && !input.equals("l") && !input.equals("e") && !input.equals("i") && !input.equals("s") && !input.equals("d")) {
 				System.out.println("Incorrect input.");
 				input = askAndGetInput(scanner);
 			}
@@ -50,6 +50,11 @@ public class Game {
 					System.out.println();
 					Leaderboard.searchPlayer(name);
 					pressEnterToContinue(scanner);
+				}
+				case "d" -> {
+					SaveGame.dropEverything();
+					System.out.println("Leaderboard and saved games deleted");
+					dotDotDot();
 				}
 			}
 		}

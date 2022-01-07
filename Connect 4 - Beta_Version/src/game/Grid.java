@@ -1,20 +1,13 @@
 package game;
 
+import static game.Banners.controls;
+
 public class Grid {
 	public static final int ROWS_AMOUNT = 6;
 	public static final int COLUMNS_AMOUNT = 7;
-	Spot[][] spots = new Spot[ROWS_AMOUNT][COLUMNS_AMOUNT];
-	private static final char EMPTY_SPOT = '_';
 	private static final char WALL = '|';
+	Spot[][] spots = new Spot[ROWS_AMOUNT][COLUMNS_AMOUNT];
 	private int amountOfCoins = 0;
-	String[] controls = {
-			"\t\t\tControls:",
-			"\t\t\tSave...................s",
-			"\t\t\tExit...................e",
-			"\t\t\tInstructions...........i",
-			"\t\t\tReturn to main menu....q",
-			"\t\t\tChoose column........1-7",
-	};
 
 	public Grid() {
 		for (int row = 0; row < ROWS_AMOUNT; row++) {
@@ -92,17 +85,20 @@ public class Grid {
 		return spots[row][col];
 	}
 
-	public void printGrid() {
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
 		for (int row = 0; row < ROWS_AMOUNT; row++) {
 			for (int col = 0; col < COLUMNS_AMOUNT; col++) {
-				Coin coin = getSpot(row, col).getCoin();
-				System.out.printf("%c %c ", WALL, coin == null ? EMPTY_SPOT : coin.getSign());
+				stringBuilder.append(String.format("%c %s ", WALL, getSpot(row, col).toString()));
 			}
-			System.out.println(WALL + controls[row]);
+			stringBuilder.append(WALL).append(controls[row]).append("\n");
 		}
 		for (int i = 1; i <= COLUMNS_AMOUNT; i++) {
-			System.out.printf("  %d ", i);
+			stringBuilder.append(String.format("  %d ", i));
 		}
-		System.out.println();
+		stringBuilder.append("\n");
+		return stringBuilder.toString();
 	}
+
 }
