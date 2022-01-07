@@ -50,7 +50,6 @@ else
 fi
 
 
-
 if [ "${amountOfDownloads}" -gt 0 ]
 then
 echo "<p>${dateFunction} - ${amountOfDownloads} downloads</p>" >> "${htmlLocation}"
