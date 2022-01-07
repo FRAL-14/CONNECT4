@@ -54,6 +54,8 @@ public class Game {
 				case "d" -> {
 					SaveGame.dropEverything();
 					System.out.println("Leaderboard and saved games deleted");
+					Leaderboard.createLeaderboardTable();
+					SaveGame.createAllTables();
 					dotDotDot();
 				}
 			}
