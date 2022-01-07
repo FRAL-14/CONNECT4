@@ -33,7 +33,7 @@ then
   echo "created html file"
   chmod 664 "${htmlLocation}"
 
-  echo -e "<!DOCTYPE html> <html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<title>Download Statistics</title>\n</head>\n<body>\n" >> "${htmlLocation}"
+  echo -e "<!DOCTYPE html> <html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<title>Download Statistics</title>\n<link rel=\"stylesheet\" href=\"../CSS/stylesheet.css\"\n<link rel=\"icon\" href=\"../MEDIA/layout/icon.png\">\n<link rel=\"apple-touch-icon\" href=\"../MEDIA/layout/icon.png\">\n</head>\n<body>\n<a href=\"download.html\">Go back</a>\n" >> "${htmlLocation}"
 else
 
 
@@ -52,10 +52,11 @@ fi
 
 if [ "${amountOfDownloads}" -gt 0 ]
 then
-echo "<p>${dateFunction} - ${amountOfDownloads} downloads</p>" >> "${htmlLocation}"
+  echo "<p>${dateFunction} - ${amountOfDownloads} downloads</p>" >> "${htmlLocation}"
 fi
 
 
+# shellcheck disable=SC2002
 totalDownload=$(cat "${htmlLocation}" | grep "<p>" | grep -E "[^0-9][0-9]+" | awk '{ SUM += $4;} END { print SUM;}')
 echo -e "<p>Total: ${totalDownload} downloads.</p>" >> "${htmlLocation}"
 
