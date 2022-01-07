@@ -50,9 +50,11 @@ else
 fi
 
 
-# shellcheck disable=SC2129
-echo "<p>${dateFunction} - ${amountOfDownloads} downloads</p>" >> "${htmlLocation}"
 
+if [ "${amountOfDownloads}" -gt 0 ]
+then
+echo "<p>${dateFunction} - ${amountOfDownloads} downloads</p>" >> "${htmlLocation}"
+fi
 
 
 totalDownload=$(cat "${htmlLocation}" | grep "<p>" | grep -E "[^0-9][0-9]+" | awk '{ SUM += $4;} END { print SUM;}')
