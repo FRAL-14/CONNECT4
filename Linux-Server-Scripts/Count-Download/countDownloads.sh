@@ -2,7 +2,7 @@
 #Written by Seifeldin Ismail - Group 1 - NightOwls
 
 #Starttime for the script
-startTime=$(date +%s)
+startTime=$(date +%s.%N)
 
 #file path of html file
 htmlLocation=/var/www/html/HTML/download-Statistics.html
@@ -70,7 +70,7 @@ fi
 totalDownload=$(cat "${htmlLocation}" | grep "<p>" | grep -E "[^0-9][0-9]+" | awk '{ SUM += $4;} END { print SUM;}')
 echo -e "<p>Total: ${totalDownload} downloads.</p>" >> "${htmlLocation}"
 
-endTime=$(date +%s)
+endTime=$(date +%s.%N)
 runTime=$((endTime-startTime))
 
 echo -e "<p>This script took ${runTime} seconds to run</p>" >> "${htmlLocation}"
