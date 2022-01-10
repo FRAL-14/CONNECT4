@@ -71,7 +71,7 @@ totalDownload=$(cat "${htmlLocation}" | grep "<p>" | grep -E "[^0-9][0-9]+" | aw
 echo -e "<p>Total: ${totalDownload} downloads.</p>" >> "${htmlLocation}"
 
 endTime=$(date +%s.%N)
-runTime=$((endTime-startTime))
+runTime=$(echo "endTime" - "startTime" | bc -l)
 
 echo -e "<p>This script took ${runTime} seconds to run</p>" >> "${htmlLocation}"
 echo -e "<p>Last updated on ${lastUpdatedDate}</p></body></html>" >> "${htmlLocation}"
