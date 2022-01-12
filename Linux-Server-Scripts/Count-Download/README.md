@@ -11,6 +11,6 @@ This script runs every day at 11:59pm
 
 ### Locations
 
-/home/team1 -- html file
+/var/www/html/HTML/ -- html file
 
 script location: /opt/scripts/Count-Download/count-Downloads.sh

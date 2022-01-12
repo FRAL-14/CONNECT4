@@ -2,7 +2,7 @@
 #Written by Seifeldin Ismail - Group 1 - NightOwls
 
 #Starttime for the script
-startTime=$(date +%s)
+startTime=$(date +%s.%N)
 
 #file path of html file
 htmlLocation=/var/www/html/HTML/download-Statistics.html
@@ -44,6 +44,8 @@ else
 #  sed -i "/$(date +%d\ %b  | sed 's%/0%/%g' | tr '[:upper:]' '[:lower:]')/d" "${htmlLocation}"
 #fi
 
+
+#these sed commands delete lines that contain These 'Patterns/Strings'.
   sed -i '/Total/d' "${htmlLocation}"
   sed -i '/This script took/d' "${htmlLocation}"
   sed -i '/Last updated on/d' "${htmlLocation}"
@@ -57,11 +59,19 @@ fi
 
 
 # shellcheck disable=SC2002
+#for the total download I'm doing 3 things:
+#1. finding the <p> elements
+#2. finding the numbers (amount of downloads for all days)
+#3. adding them in an implicit for loop (awk += $4)
+#the '$' is for the field. A typical line in the script looks like this: <p>07 jan - x downloads.
+# the '-' is the 3rd field and the number is the 4th so im just stacking up the numbers
+#finally, to set the variable, the PRINT outputs the sum into the variable
+
 totalDownload=$(cat "${htmlLocation}" | grep "<p>" | grep -E "[^0-9][0-9]+" | awk '{ SUM += $4;} END { print SUM;}')
 echo -e "<p>Total: ${totalDownload} downloads.</p>" >> "${htmlLocation}"
 
-endTime=$(date +%s)
-runTime=$((endTime-startTime))
+endTime=$(date +%s.%N)
+runTime=$(echo "$endTime" - "$startTime" | bc -l)
 
 echo -e "<p>This script took ${runTime} seconds to run</p>" >> "${htmlLocation}"
 echo -e "<p>Last updated on ${lastUpdatedDate}</p></body></html>" >> "${htmlLocation}"
