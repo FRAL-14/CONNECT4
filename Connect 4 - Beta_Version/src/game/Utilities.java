@@ -3,7 +3,7 @@ package game;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-public class Banners {
+public class Utilities {
 
 	public static String[] controls = {
 			"\t\t\tControls:",
@@ -115,7 +115,7 @@ public class Banners {
 
 
 	public static void printWelcomeScreen() {
-		String instructions = """ 
+		String options = """ 
 				Start a new game..........n
 				Load a saved game.........l
 				Search the leaderboard....s
@@ -124,10 +124,10 @@ public class Banners {
 				Delete database...........d
 				""";
 		printNewScreen();
-		Banners.printLogo();
+		Utilities.printLogo();
 		Leaderboard.printTop5Scores();
 		System.out.println();
 		System.out.println();
-		System.out.print(instructions);
+		System.out.print(options);
 	}
 }

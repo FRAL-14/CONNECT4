@@ -2,14 +2,13 @@ package game;
 
 import java.util.Scanner;
 
-import static game.Banners.*;
+import static game.Utilities.*;
 
 public class Game {
 	public static void main(String[] args) {
-		Leaderboard.createDatabase();
-//		SaveGame.dropEverything();              // empty the database
+		Database.createDatabase();
 		Leaderboard.createLeaderboardTable();
-		SaveGame.createAllTables();
+		SaveGame.createSaveGameTables();
 
 		String input;
 		Scanner scanner = new Scanner(System.in);
@@ -17,22 +16,25 @@ public class Game {
 		while (true) {
 			printWelcomeScreen();
 
-			input = askAndGetInput(scanner);
-			while (!input.equals("n") && !input.equals("l") && !input.equals("e") && !input.equals("i") && !input.equals("s") && !input.equals("d")) {
-				System.out.println("Incorrect input.");
+			input = null;
+			while (input == null) {
 				input = askAndGetInput(scanner);
+				switch (input) {
+					case "n", "l", "e", "i", "s", "d" -> {}
+					default -> {
+						System.out.println("Incorrect input.");
+						input = null;
+					}
+				}
 			}
 
 			switch (input) {
 				case "n" -> {
-
 					printNewScreen();
 					printLogo();
 					String name = askForName(scanner);
 
 					GameSession gameSession = new GameSession(name);
-
-					//			main game loop
 					gameSession.playGame();
 				}
 				case "e" -> {
@@ -52,11 +54,11 @@ public class Game {
 					pressEnterToContinue(scanner);
 				}
 				case "d" -> {
-					SaveGame.dropEverything();
-					System.out.println("Leaderboard and saved games deleted");
-					Leaderboard.createLeaderboardTable();
-					SaveGame.createAllTables();
+					Database.deleteData();
+					System.out.print("Leaderboard and saved games deleted");
 					dotDotDot();
+					Leaderboard.createLeaderboardTable();
+					SaveGame.createSaveGameTables();
 				}
 			}
 		}

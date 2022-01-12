@@ -4,20 +4,18 @@ import java.sql.*;
 
 import static game.Grid.COLUMNS_AMOUNT;
 import static game.Grid.ROWS_AMOUNT;
-import static game.Leaderboard.getConnection;
 
 /**
  @author Seifeldin Ismail
  @author Peter Buschenreiter */
 
 public class SaveGame {
-
 	/**
 	 Creating all tables
 	 */
-	public static void createAllTables() {
+	public static void createSaveGameTables() {
 		//          These are for executing queries through jdbc
-		Connection connection = getConnection();
+		Connection connection = Database.getConnection();
 		Statement stmt;
 		String CreateSql;
 
@@ -65,7 +63,6 @@ public class SaveGame {
 			connection.close();
 		} catch (SQLException e) {
 			System.out.println("Error while trying to create save & load tables.");
-			e.printStackTrace();
 		}
 	}
 
@@ -77,7 +74,7 @@ public class SaveGame {
 	 @param duration   <code>long</code>
 	 */
 	public static void saveGame(String playerName, int moves, int duration, Grid grid) {
-		Connection connection = getConnection();
+		Connection connection = Database.getConnection();
 		String insertSql;
 		PreparedStatement pstmt;
 		PreparedStatement pstmt2;
@@ -129,7 +126,6 @@ public class SaveGame {
 			pstmt2.close();
 		} catch (SQLException e) {
 			System.out.println("Error while trying to save a game.");
-			e.printStackTrace();
 		}
 	}
 
@@ -139,7 +135,7 @@ public class SaveGame {
 	 @param playerName <code>String</code>
 	 */
 	public static void checkAndDeletePlayerIfExists(String playerName) {
-		Connection connection = getConnection();
+		Connection connection = Database.getConnection();
 		PreparedStatement pstmt1;
 		PreparedStatement pstmt2;
 		try {
@@ -160,7 +156,6 @@ public class SaveGame {
 			}
 		} catch (SQLException e) {
 			System.out.println("Error while trying to delete a saved game.");
-			e.printStackTrace();
 		}
 	}
 
@@ -170,7 +165,7 @@ public class SaveGame {
 	 @return <code>boolean</code>: <code>True</code> if at least 1 game available to load, otherwise <code>False</code>
 	 */
 	public static boolean printSavedGames() {
-		Connection connection = getConnection();
+		Connection connection = Database.getConnection();
 		Statement stmt;
 		String presentQuery = """
 				         SELECT name, moves, game_duration
@@ -194,7 +189,6 @@ public class SaveGame {
 
 		} catch (SQLException e) {
 			System.out.println("Error while displaying saved games.");
-			e.printStackTrace();
 		}
 		return true;
 	}
@@ -212,7 +206,7 @@ public class SaveGame {
 		PlayerHuman playerHuman = null;
 		Grid grid = null;
 
-		Connection connection = getConnection();
+		Connection connection = Database.getConnection();
 		ResultSet playerQuery;
 		PreparedStatement pstmt;
 
@@ -232,7 +226,7 @@ public class SaveGame {
 
 			if (!playerQuery.next()) {
 				System.out.print("No saved progress");
-				Banners.dotDotDot();
+				Utilities.dotDotDot();
 			} else {
 				grid = new Grid();
 				playerHuman = new PlayerHuman(playerQuery.getString("name"), grid, new Score(playerQuery.getInt("moves"), playerQuery.getInt("game_duration")));
@@ -256,46 +250,10 @@ public class SaveGame {
 			connection.close();
 		} catch (SQLException e) {
 			System.out.println("Error while trying to load a game. ");
-			e.printStackTrace();
 		}
+
 		if (grid != null && playerCPU != null && playerHuman != null)
 			return new GameSession(grid, playerHuman, playerCPU);
 		else return null;
-	}
-
-	/**
-	 Drops all sequences and tables to reset the entire database and start from scratch
-	 */
-	public static void dropEverything() {
-		Connection connection = getConnection();
-		Statement stmt;
-		String insertSql;
-		try {
-			assert connection != null;
-			stmt = connection.createStatement();
-
-			insertSql = """
-					DROP TABLE IF EXISTS int_spot CASCADE;
-										
-					DROP TABLE IF EXISTS int_score CASCADE;
-										
-					DROP TABLE IF EXISTS int_player CASCADE;
-					                
-					DROP TABLE IF EXISTS int_gamesession CASCADE;
-										
-					DROP TABLE IF EXISTS int_leaderboard CASCADE;
-					                
-					DROP SEQUENCE IF EXISTS player_id_seq CASCADE ;
-					                
-					DROP SEQUENCE IF EXISTS game_id_seq CASCADE ;
-										
-					""";
-			stmt.executeUpdate(insertSql);
-			stmt.close();
-			connection.close();
-		} catch (SQLException e) {
-			System.out.println("Error while trying to drop all tables and sequences.");
-			e.printStackTrace();
-		}
 	}
 }

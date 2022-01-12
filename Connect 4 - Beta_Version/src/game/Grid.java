@@ -1,6 +1,6 @@
 package game;
 
-import static game.Banners.controls;
+import static game.Utilities.controls;
 
 public class Grid {
 	public static final int ROWS_AMOUNT = 6;

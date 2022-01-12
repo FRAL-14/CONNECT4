@@ -2,13 +2,13 @@ package game;
 
 import java.util.Scanner;
 
-import static game.Banners.*;
+import static game.Utilities.*;
 import static game.Game.askAndGetInput;
 
 public class GameSession {
 	private final Grid grid;
 	private boolean winner = false;
-	private boolean backToMainMenu = false;
+	private boolean continuePlaying = true;
 	PlayerHuman playerHuman;
 	PlayerCPU playerCPU;
 	private final Scanner scanner = new Scanner(System.in);
@@ -53,8 +53,8 @@ public class GameSession {
 			boolean turnComplete = false;
 			while (!turnComplete) {
 				input = askAndGetInput(scanner);
-				backToMainMenu = checkAndDoSideAction(input, scanner, grid, playerHuman);
-				if (backToMainMenu) break gameLoop;
+				continuePlaying = checkAndDoSideAction(input);
+				if (!continuePlaying) break gameLoop;
 
 				Integer columnChoice = getNumber(input);
 				turnComplete = isInBounds(columnChoice);
@@ -99,7 +99,7 @@ public class GameSession {
 		}
 
 		//      no winner & no back to main menu command was given --> TIE
-		if (!winner && !backToMainMenu) {
+		if (!winner && continuePlaying) {
 			printNewScreen();
 			System.out.println(grid);
 			System.out.println();
@@ -118,7 +118,7 @@ public class GameSession {
 
 	 @return <code>boolean</code>
 	 */
-	public static boolean isInBounds(Integer val) {
+	public boolean isInBounds(Integer val) {
 		return val != null && val > 0 && val < 8;
 	}
 
@@ -129,7 +129,7 @@ public class GameSession {
 
 	 @return <code>Integer</code> or <code>NULL</code>
 	 */
-	public static Integer getNumber(String input) {
+	public Integer getNumber(String input) {
 		try {
 			return Integer.parseInt(input);
 		} catch (NumberFormatException e) {
@@ -140,25 +140,23 @@ public class GameSession {
 	/**
 	 Performs one of the secondary game actions like saving, printing instructions, ending the game and returning to main menu
 
-	 @param input   <code>String</code>
-	 @param scanner <code>Scanner</code>
-	 @param grid    <code>Grid</code>
+	 @param input <code>String</code>
 	 */
-	public static boolean checkAndDoSideAction(String input, Scanner scanner, Grid grid, Player player) {
+	public boolean checkAndDoSideAction(String input) {
 		switch (input) {
 			case "s" -> {
-				SaveGame.saveGame(player.getNAME(), player.getMoves(), player.getDuration(), grid);
+				SaveGame.saveGame(playerHuman.getNAME(), playerHuman.getMoves(), playerHuman.getDuration(), grid);
 				System.out.print("Saving Game");
 				dotDotDot();
 				System.out.print("Game Saved! Returning to Main Menu");
 				dotDotDot();
-				return true;
+				return false;
 			}
 			case "i" -> {
 				printInstructions(scanner);
 				printNewScreen();
 				System.out.println(grid);
-				return false;
+				return true;
 			}
 			case "e" -> {
 				System.out.println("Closing game...");
@@ -167,9 +165,9 @@ public class GameSession {
 			case "q" -> {
 				System.out.print("Returning to main menu");
 				dotDotDot();
-				return true;
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 }

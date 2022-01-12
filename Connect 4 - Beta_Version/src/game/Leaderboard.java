@@ -1,75 +1,14 @@
 package game;
 
 import java.sql.*;
-import java.util.Scanner;
 
 public class Leaderboard {
-
-	private static final String jdbc = "jdbc:postgresql://localhost:5432/connect4database";
-	private static final String username = "postgres";
-	protected static String password = "Student_1234";
-
-
-	/**
-	 Asks for postgres password and saves it in class variable password
-	 <br>
-	 Creates the database in case it doesn't exist
-	 */
-	public static void createDatabase() {
-		String jdbc = "jdbc:postgresql://localhost/";
-		Scanner scanner = new Scanner(System.in);
-		String pw;
-
-		Banners.printNewScreen();
-		System.out.print("Please enter your postgres password (Default = Student_1234): ");
-
-		pw = scanner.nextLine().trim();
-
-		if (!pw.equals("")) {   // keep default password if no password was entered
-			password = pw;
-		}
-
-		try {
-			Connection connection = DriverManager.getConnection(jdbc, username, password);
-			Statement statement = connection.createStatement();
-
-			String sql = "SELECT datname FROM pg_database WHERE datname = 'connect4database';";
-
-			ResultSet rs = statement.executeQuery(sql);
-
-			if (!rs.next()) { // when resultSet is empty
-				sql = "CREATE DATABASE connect4database";
-				statement.executeUpdate(sql);
-			}
-
-		} catch (SQLException e) {
-			System.out.println("Error while creating the database");
-			System.exit(1);
-		}
-	}
-
-	/**
-	 Sets up postgres server connection
-
-	 @return <code>Connection</code>
-	 */
-	public static Connection getConnection() {
-
-		try {
-			return DriverManager.getConnection(jdbc, username, password);
-
-		} catch (SQLException e) {
-			System.out.println("Error while creating the connection to the postgres");
-			e.printStackTrace();
-		}
-		return null;
-	}
 
 	/**
 	 Creates the leaderboard table
 	 */
 	public static void createLeaderboardTable() {
-		Connection connection = getConnection();
+		Connection connection = Database.getConnection();
 		Statement stmt;
 		String CreateSql;
 		try {
@@ -77,7 +16,8 @@ public class Leaderboard {
 			stmt = connection.createStatement();
 			CreateSql = """
 					CREATE TABLE IF NOT EXISTS int_leaderboard(
-					    player_id      BIGSERIAL
+					    player_id      INTEGER
+					        GENERATED ALWAYS AS IDENTITY
 					        CONSTRAINT int_leaderboard_pkey
 					            PRIMARY KEY,
 					    player_name    VARCHAR(20) NOT NULL,
@@ -90,7 +30,6 @@ public class Leaderboard {
 			connection.close();
 		} catch (SQLException e) {
 			System.out.println("Error while creating Leaderboard table.");
-			e.printStackTrace();
 		}
 	}
 
@@ -102,7 +41,7 @@ public class Leaderboard {
 	 @param gameDuration <code>int</code>
 	 */
 	public static void insertToLeaderboard(String playerName, int moves, int gameDuration) {
-		Connection connection = getConnection();
+		Connection connection = Database.getConnection();
 
 		try {
 			assert connection != null : "Connection is null";
@@ -123,7 +62,6 @@ public class Leaderboard {
 
 		} catch (SQLException e) {
 			System.out.println("Error while inserting into leaderboard table.");
-			e.printStackTrace();
 		}
 	}
 
@@ -131,7 +69,7 @@ public class Leaderboard {
 	 Prints top 5 Leaderboard scores
 	 */
 	public static void printTop5Scores() {
-		Connection connection = getConnection();
+		Connection connection = Database.getConnection();
 		Statement stmt;
 		String query = "SELECT LPAD(player_name,34,'.'),moves,game_duration FROM int_leaderboard ORDER BY 2,3";
 
@@ -155,7 +93,6 @@ public class Leaderboard {
 			connection.close();
 		} catch (SQLException e) {
 			System.out.println("Error while displaying top 5 scores.");
-			e.printStackTrace();
 		}
 	}
 
@@ -165,7 +102,7 @@ public class Leaderboard {
 	 @param playerName <code>String</code>
 	 */
 	public static void searchPlayer(String playerName) {
-		Connection connection = getConnection();
+		Connection connection = Database.getConnection();
 		Statement stmt;
 		String query = " SELECT LPAD(player_name,32,'.'),moves,game_duration " +
 				"FROM int_leaderboard " +
@@ -190,7 +127,6 @@ public class Leaderboard {
 			connection.close();
 		} catch (SQLException e) {
 			System.out.println("Error while searching for a name in the leaderboard table.");
-			e.printStackTrace();
 		}
 	}
 
