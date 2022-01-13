@@ -1,5 +1,8 @@
 package game;
 
+/**
+ @author Peter Buschenreiter
+ */
 public class Coin {
 	private final Player owner;
 

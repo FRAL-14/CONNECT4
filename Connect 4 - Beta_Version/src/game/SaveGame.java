@@ -1,6 +1,7 @@
 package game;
 
 import java.sql.*;
+import java.util.Scanner;
 
 import static game.Grid.COLUMNS_AMOUNT;
 import static game.Grid.ROWS_AMOUNT;
@@ -10,17 +11,29 @@ import static game.Grid.ROWS_AMOUNT;
  @author Peter Buschenreiter */
 
 public class SaveGame {
+	private final Utilities utilities;
+	private final Connection connection;
+	private final Scanner scanner;
+	private final Leaderboard leaderboard;
+
+
+	public SaveGame(Utilities utilities, Connection connection, Scanner scanner, Leaderboard leaderboard) {
+		this.utilities = utilities;
+		this.connection = connection;
+		this.scanner = scanner;
+		this.leaderboard = leaderboard;
+		createSaveGameTables();
+	}
+
+
 	/**
 	 Creating all tables
 	 */
-	public static void createSaveGameTables() {
-		//          These are for executing queries through jdbc
-		Connection connection = Database.getConnection();
+	public void createSaveGameTables() {
 		Statement stmt;
 		String CreateSql;
 
 		try {
-			assert connection != null : "Connection is null";
 			stmt = connection.createStatement();
 
 			CreateSql = """
@@ -60,11 +73,39 @@ public class SaveGame {
 					""";
 			stmt.executeUpdate(CreateSql);
 			stmt.close();
-			connection.close();
 		} catch (SQLException e) {
 			System.out.println("Error while trying to create save & load tables.");
 		}
 	}
+
+
+	/**
+	 Ask user for a name and looks for a saved game under that name
+
+	 @param scanner <code>Scanner</code>
+	 */
+	public void tryToLoadGame() {
+		String name;
+		GameSession gameSession;
+		boolean gamesAvailable;
+
+		utilities.printNewScreen();
+		gamesAvailable = printSavedGames();
+		if (!gamesAvailable) {
+			System.out.println("No saved games found");
+			utilities.dotDotDot();
+			return;
+		}
+
+		System.out.print("Enter your name to look for a saved game: ");
+		name = scanner.nextLine();
+		gameSession = loadGame(name);
+
+		if (gameSession != null) {
+			gameSession.playGame();
+		}
+	}
+
 
 	/**
 	 Saves the game
@@ -73,16 +114,12 @@ public class SaveGame {
 	 @param moves      <code>int</code>
 	 @param duration   <code>long</code>
 	 */
-	public static void saveGame(String playerName, int moves, int duration, Grid grid) {
-		Connection connection = Database.getConnection();
+	public void saveGame(String playerName, int moves, int duration, Grid grid) {
 		String insertSql;
 		PreparedStatement pstmt;
 		PreparedStatement pstmt2;
 
 		try {
-			assert connection != null : "Connection is null";
-
-			//			Method checks for previous record of same player name and deletes it if so.
 			checkAndDeletePlayerIfExists(playerName);
 
 			pstmt = connection.prepareStatement("""
@@ -121,7 +158,6 @@ public class SaveGame {
 				}
 			}
 
-			connection.close();
 			pstmt.close();
 			pstmt2.close();
 		} catch (SQLException e) {
@@ -134,8 +170,7 @@ public class SaveGame {
 
 	 @param playerName <code>String</code>
 	 */
-	public static void checkAndDeletePlayerIfExists(String playerName) {
-		Connection connection = Database.getConnection();
+	public void checkAndDeletePlayerIfExists(String playerName) {
 		PreparedStatement pstmt1;
 		PreparedStatement pstmt2;
 		try {
@@ -159,13 +194,13 @@ public class SaveGame {
 		}
 	}
 
+
 	/**
 	 Displays names, moves and durations of available games to load.
 
 	 @return <code>boolean</code>: <code>True</code> if at least 1 game available to load, otherwise <code>False</code>
 	 */
-	public static boolean printSavedGames() {
-		Connection connection = Database.getConnection();
+	public boolean printSavedGames() {
 		Statement stmt;
 		String presentQuery = """
 				         SELECT name, moves, game_duration
@@ -173,7 +208,6 @@ public class SaveGame {
 				         ORDER BY 1;
 				""";
 		try {
-			assert connection != null;
 			stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(presentQuery);
 
@@ -201,12 +235,11 @@ public class SaveGame {
 
 	 @return <code>GameSession</code> or <code>null</code> if no game is available to load under that name
 	 */
-	public static GameSession loadGame(String name) {
+	public GameSession loadGame(String name) {
 		PlayerCPU playerCPU = null;
 		PlayerHuman playerHuman = null;
 		Grid grid = null;
 
-		Connection connection = Database.getConnection();
 		ResultSet playerQuery;
 		PreparedStatement pstmt;
 
@@ -219,14 +252,13 @@ public class SaveGame {
 				""";
 
 		try {
-			assert connection != null;
 			pstmt = connection.prepareStatement(searchQuery);
 			pstmt.setString(1, name);
 			playerQuery = pstmt.executeQuery();
 
 			if (!playerQuery.next()) {
 				System.out.print("No saved progress");
-				Utilities.dotDotDot();
+				utilities.dotDotDot();
 			} else {
 				grid = new Grid();
 				playerHuman = new PlayerHuman(playerQuery.getString("name"), grid, new Score(playerQuery.getInt("moves"), playerQuery.getInt("game_duration")));
@@ -247,13 +279,12 @@ public class SaveGame {
 				}
 			}
 			pstmt.close();
-			connection.close();
 		} catch (SQLException e) {
 			System.out.println("Error while trying to load a game. ");
 		}
 
-		if (grid != null && playerCPU != null && playerHuman != null)
-			return new GameSession(grid, playerHuman, playerCPU);
+		if (grid != null && playerCPU != null)
+			return new GameSession(grid, playerHuman, playerCPU, utilities, this, leaderboard);
 		else return null;
 	}
 }

@@ -4,13 +4,11 @@ import java.util.Random;
 
 import static game.Grid.COLUMNS_AMOUNT;
 
-
+/**
+ @author Peter Buschenreiter
+ */
 public class PlayerCPU extends Player {
-	private Random random = new Random();
-
-	public PlayerCPU(String name, Grid grid, Score score) {
-		super(name, 'X', grid, score);
-	}
+	private final Random random = new Random();
 
 	public PlayerCPU(Grid grid, Score score) { super("Skynet",'X',grid,score); }
 

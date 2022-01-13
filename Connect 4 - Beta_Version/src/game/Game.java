@@ -2,23 +2,22 @@ package game;
 
 import java.util.Scanner;
 
-import static game.Utilities.*;
-
 public class Game {
-	public static void main(String[] args) {
-		Database.createDatabase();
-		Leaderboard.createLeaderboardTable();
-		SaveGame.createSaveGameTables();
 
-		String input;
+	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
+		Database db = new Database(scanner);
+		Leaderboard leaderboard = new Leaderboard(db.getConnection());
+		Utilities utilities = new Utilities(leaderboard, scanner);
+		SaveGame saveGame = new SaveGame(utilities, db.getConnection(), scanner, leaderboard);
+		String input;
 
 		while (true) {
-			printWelcomeScreen();
+			utilities.printWelcomeScreen();
 
 			input = null;
 			while (input == null) {
-				input = askAndGetInput(scanner);
+				input = utilities.askAndGetInput();
 				switch (input) {
 					case "n", "l", "e", "i", "s", "d" -> {}
 					default -> {
@@ -30,98 +29,38 @@ public class Game {
 
 			switch (input) {
 				case "n" -> {
-					printNewScreen();
-					printLogo();
-					String name = askForName(scanner);
+					utilities.printNewScreen();
+					utilities.printLogo();
+					String name = utilities.askForName();
 
-					GameSession gameSession = new GameSession(name);
+					GameSession gameSession = new GameSession(name, utilities, saveGame, leaderboard);
 					gameSession.playGame();
 				}
 				case "e" -> {
 					System.out.println("Closing game...");
+					db.closeConnection();
 					System.exit(0);
 				}
-				case "l" -> tryToLoadGame(scanner);
-				case "i" -> printInstructions(scanner);
+				case "l" -> saveGame.tryToLoadGame();
+				case "i" -> utilities.printInstructions();
 				case "s" -> {
 					String name;
 
-					printNewScreen();
+					utilities.printNewScreen();
 					System.out.print("Enter a name to look for in the leaderboard: ");
 					name = scanner.nextLine();
 					System.out.println();
-					Leaderboard.searchPlayer(name);
-					pressEnterToContinue(scanner);
+					leaderboard.searchPlayer(name);
+					utilities.pressEnterToContinue();
 				}
 				case "d" -> {
-					Database.deleteData();
+					db.deleteData();
 					System.out.print("Leaderboard and saved games deleted");
-					dotDotDot();
-					Leaderboard.createLeaderboardTable();
-					SaveGame.createSaveGameTables();
+					utilities.dotDotDot();
+					leaderboard.createLeaderboardTable();
+					saveGame.createSaveGameTables();
 				}
 			}
-		}
-	}
-
-
-	/**
-	 Asks user to enter their name, removes leading and
-
-	 @param scanner <code>Scanner</code>
-
-	 @return <code>String</code> name of player
-	 */
-	private static String askForName(Scanner scanner) {
-		System.out.print("Type in your name: ");
-		String name;
-		name = scanner.nextLine().trim();
-		while (name.length() > 20 || name.length() == 0) {
-			System.out.println("Name has invalid length. Please use between 1 and 20 characters.");
-			System.out.print("Type in your name: ");
-			name = scanner.nextLine().trim();
-		}
-		return name;
-	}
-
-	/**
-	 "Input: " gets printed on screen
-
-	 @param scanner needed to read input
-
-	 @return input as <code>String</code>
-	 */
-	public static String askAndGetInput(Scanner scanner) {
-		System.out.println();
-		System.out.print("Input: ");
-		return scanner.nextLine();
-	}
-
-
-	/**
-	 Ask user for a name and looks for a saved game under that name
-
-	 @param scanner <code>Scanner</code>
-	 */
-	private static void tryToLoadGame(Scanner scanner) {
-		String name;
-		GameSession gameSession;
-		boolean gamesAvailable;
-
-		printNewScreen();
-		gamesAvailable = SaveGame.printSavedGames();
-		if (!gamesAvailable) {
-			System.out.println("No saved games found");
-			dotDotDot();
-			return;
-		}
-
-		System.out.print("Enter your name to look for a saved game: ");
-		name = scanner.nextLine();
-		gameSession = SaveGame.loadGame(name);
-
-		if (gameSession != null) {
-			gameSession.playGame();
 		}
 	}
 }

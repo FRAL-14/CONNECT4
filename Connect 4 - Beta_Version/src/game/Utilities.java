@@ -3,23 +3,57 @@ package game;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+/**
+ @author Peter Buschenreiter
+ */
 public class Utilities {
+	private final Leaderboard leaderboard;
+	private final Scanner scanner;
 
-	public static String[] controls = {
-			"\t\t\tControls:",
-			"\t\t\tSave...................s",
-			"\t\t\tExit...................e",
-			"\t\t\tInstructions...........i",
-			"\t\t\tReturn to main menu....q",
-			"\t\t\tChoose column........1-7",
-	};
+	public Utilities(Leaderboard leaderboard, Scanner scanner) {
+		this.leaderboard = leaderboard;
+		this.scanner = scanner;
+	}
+
+
+	/**
+	 Asks user to enter their name, removes leading and
+
+	 @return <code>String</code> name of player
+	 */
+	public String askForName() {
+		System.out.print("Type in your name: ");
+		String name;
+		name = scanner.nextLine().trim();
+		while (name.length() > 20 || name.length() == 0) {
+			System.out.println("Name has invalid length. Please use between 1 and 20 characters.");
+			System.out.print("Type in your name: ");
+			name = scanner.nextLine().trim();
+		}
+		return name;
+	}
+
+
+	/**
+	 "Input: " gets printed on screen
+
+	 @param scanner needed to read input
+
+	 @return input as <code>String</code>
+	 */
+	public String askAndGetInput() {
+		System.out.println();
+		System.out.print("Input: ");
+		return scanner.nextLine();
+	}
+
 
 	/**
 	 program waits for specified time
 
 	 @param milliseconds 1000 == 1 second
 	 */
-	public static void sleep(int milliseconds) {
+	public void sleep(int milliseconds) {
 		try {
 			TimeUnit.MILLISECONDS.sleep(milliseconds);
 		} catch (InterruptedException e) {
@@ -27,29 +61,32 @@ public class Utilities {
 		}
 	}
 
+
 	/**
 	 Moves the screen up by 25 rows to clear the screen
 	 */
-	public static void printNewScreen() {
+	public void printNewScreen() {
 		final int MAX_LINES = 35;
 		for (int i = 0; i < MAX_LINES; i++) {
 			System.out.println();
 		}
 	}
 
+
 	/**
 	 Prints "Press Enter to continue" and waits for a new line input
 	 */
-	public static void pressEnterToContinue(Scanner scanner) {
+	public void pressEnterToContinue() {
 		System.out.println();
 		System.out.print("Press Enter to continue ");
 		scanner.nextLine();
 	}
 
+
 	/**
 	 Prints three dots with half a second in between each dot
 	 */
-	public static void dotDotDot() {
+	public void dotDotDot() {
 		sleep(500);
 		System.out.print(".");
 		sleep(500);
@@ -60,7 +97,8 @@ public class Utilities {
 		System.out.println();
 	}
 
-	public static void printLogo() {
+
+	public void printLogo() {
 		String logo = """
 				  ______   ______   .__   __. .__   __.  _______   ______ .___________.    _  _
 				 /      | /  __  \\  |  \\ |  | |  \\ |  | |   ____| /      ||           |   | || |
@@ -72,7 +110,8 @@ public class Utilities {
 		System.out.println(logo);
 	}
 
-	public static void printGameOver() {
+
+	public void printGameOver() {
 		String gameOver = """
 				  _______      ___      .___  ___.  _______      ______   ____    ____  _______ .______     \s
 				 /  _____|    /   \\     |   \\/   | |   ____|    /  __  \\  \\   \\  /   / |   ____||   _  \\    \s
@@ -85,7 +124,8 @@ public class Utilities {
 		System.out.println(gameOver);
 	}
 
-	public static void printYouWin() {
+
+	public void printYouWin() {
 		String youWin = """
 				  ____    ____  ______    __    __     ____    __    ____  __  .__   __.\s
 				  \\   \\  /   / /  __  \\  |  |  |  |    \\   \\  /  \\  /   / |  | |  \\ |  |\s
@@ -97,7 +137,8 @@ public class Utilities {
 		System.out.println(youWin);
 	}
 
-	public static void printInstructions(Scanner scanner) {
+
+	public void printInstructions() {
 		String instructions = """
 				Rules and instructions:
 				 - Your objective is to be the first to connect 4
@@ -110,11 +151,14 @@ public class Utilities {
 				""";
 		printNewScreen();
 		System.out.print(instructions);
-		pressEnterToContinue(scanner);
+		pressEnterToContinue();
 	}
 
 
-	public static void printWelcomeScreen() {
+	/**
+	 Prints welcome screen including top 5 leaderboard
+	 */
+	public void printWelcomeScreen() {
 		String options = """ 
 				Start a new game..........n
 				Load a saved game.........l
@@ -124,8 +168,8 @@ public class Utilities {
 				Delete database...........d
 				""";
 		printNewScreen();
-		Utilities.printLogo();
-		Leaderboard.printTop5Scores();
+		printLogo();
+		leaderboard.printTop5Scores();
 		System.out.println();
 		System.out.println();
 		System.out.print(options);

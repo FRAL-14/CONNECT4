@@ -2,6 +2,9 @@ package game;
 
 import static game.Grid.ROWS_AMOUNT;
 
+/**
+ @author Peter Buschenreiter
+ */
 public abstract class Player {
 	private final char SIGN;
 	private final String NAME;

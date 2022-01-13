@@ -1,13 +1,22 @@
 package game;
 
-import static game.Utilities.controls;
-
+/**
+ @author Peter Buschenreiter
+ */
 public class Grid {
 	public static final int ROWS_AMOUNT = 6;
 	public static final int COLUMNS_AMOUNT = 7;
 	private static final char WALL = '|';
-	Spot[][] spots = new Spot[ROWS_AMOUNT][COLUMNS_AMOUNT];
+	private final Spot[][] spots = new Spot[ROWS_AMOUNT][COLUMNS_AMOUNT];
 	private int amountOfCoins = 0;
+	private final String[] controls = {
+			"\t\t\tControls:",
+			"\t\t\tSave...................s",
+			"\t\t\tExit...................e",
+			"\t\t\tInstructions...........i",
+			"\t\t\tReturn to main menu....q",
+			"\t\t\tChoose column........1-7",
+	};
 
 	public Grid() {
 		for (int row = 0; row < ROWS_AMOUNT; row++) {

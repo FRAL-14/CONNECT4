@@ -2,6 +2,9 @@ package game;
 
 import java.util.Date;
 
+/**
+ @author Peter Buschenreiter
+ */
 public class Score {
 	private int moves;
 	private int duration;

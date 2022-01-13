@@ -3,10 +3,21 @@ package game;
 import java.sql.*;
 import java.util.Scanner;
 
+/**
+ @author Peter Buschenreiter
+ */
 public class Database {
 	private static final String jdbc = "jdbc:postgresql://localhost:5432/connect4database";
 	private static final String username = "postgres";
-	protected static String password = "Student_1234";
+	private static String password = "Student_1234";
+	private final Connection connection;
+	private final Scanner scanner;
+
+	public Database(Scanner scanner) {
+		this.scanner = scanner;
+		createDatabase();
+		connection = setConnection();
+	}
 
 
 	/**
@@ -14,12 +25,10 @@ public class Database {
 	 <br>
 	 Creates the database in case it doesn't exist
 	 */
-	public static void createDatabase() {
+	public void createDatabase() {
 		String jdbc = "jdbc:postgresql://localhost/";
-		Scanner scanner = new Scanner(System.in);
 		String pw;
 
-		Utilities.printNewScreen();
 		System.out.printf("Please enter your postgres password (Default = %s): ", password);
 
 		pw = scanner.nextLine().trim();
@@ -52,26 +61,40 @@ public class Database {
 
 	 @return <code>Connection</code>
 	 */
-	public static Connection getConnection() {
+	public Connection setConnection() {
 
 		try {
 			return DriverManager.getConnection(jdbc, username, password);
 
 		} catch (SQLException e) {
 			System.out.println("Error while creating the connection to the postgres");
-			e.printStackTrace();
 		}
 		return null;
 	}
 
 	/**
-	 Drops all sequences and tables to reset the entire database and start from scratch
+	 Gets connection
+
+	 @return <code>Connection</code>
 	 */
-	public static void deleteData() {
-		Connection connection = Database.getConnection();
+	public Connection getConnection() {
+		return connection;
+	}
+
+	public void closeConnection() {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			System.out.println("Error while trying to close the connection.");
+		}
+	}
+
+	/**
+	 Truncates all data in all tables and restarts identity columns and sequences
+	 */
+	public void deleteData() {
 		Statement stmt;
 		try {
-			assert connection != null;
 			stmt = connection.createStatement();
 
 			String truncSql = """
@@ -84,7 +107,6 @@ public class Database {
 
 			stmt.executeUpdate(truncSql);
 			stmt.close();
-			connection.close();
 		} catch (SQLException e) {
 			System.out.println("Error while trying to drop all tables and sequences.");
 		}
