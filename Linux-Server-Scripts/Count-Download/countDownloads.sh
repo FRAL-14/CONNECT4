@@ -73,5 +73,5 @@ echo -e "<p>Total: ${totalDownload} downloads.</p>" >> "${htmlLocation}"
 endTime=$(date +%s.%N)
 runTime=$(echo "$endTime" - "$startTime" | bc -l)
 
-echo -e "<p>This script took ${runTime} seconds to run</p>" >> "${htmlLocation}"
+printf "<p>This script took %.2f seconds to run</p>" "$runTime" >> "${htmlLocation}"
 echo -e "<p>Last updated on ${lastUpdatedDate}</p></body></html>" >> "${htmlLocation}"
